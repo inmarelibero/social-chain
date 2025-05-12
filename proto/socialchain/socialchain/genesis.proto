@@ -1,0 +1,17 @@
+syntax = "proto3";
+package socialchain.socialchain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "socialchain/socialchain/params.proto";
+
+option go_package = "socialchain/x/socialchain/types";
+
+// GenesisState defines the socialchain module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
