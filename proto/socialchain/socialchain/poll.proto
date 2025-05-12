@@ -1,0 +1,10 @@
+syntax = "proto3";
+package socialchain.socialchain;
+
+option go_package = "socialchain/x/socialchain/types";
+
+message Poll {
+  
+  string title = 1; 
+  repeated string options = 2; 
+}

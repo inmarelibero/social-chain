@@ -1,51 +1,60 @@
 # socialchain
-**socialchain** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
+
+**socialchain** is an open source project I'm using to learn Cosmos SDk and Go.
+
+The purpose is to build an L1 blockchain with the features of a social network, like:
+- post
+- like
+
+It's built using Cosmos SDK and Tendermint, and created with Ignite.
+
+## Prerequisites
+
+- `go: 1.24.3`
 
 ## Get started
 
-```
-ignite chain serve
-```
+Run `ignite chain serve` to installs dependencies, builds, initializes, and starts your blockchain locally.
 
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
-
-### Configure
-
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Ignite CLI docs](https://docs.ignite.com).
-
-### Web Frontend
-
-Additionally, Ignite CLI offers both Vue and React options for frontend scaffolding:
-
-For a Vue frontend, use: `ignite scaffold vue`
-For a React frontend, use: `ignite scaffold react`
-These commands can be run within your scaffolded blockchain project. 
-
-
-For more information see the [monorepo for Ignite front-end development](https://github.com/ignite/web).
-
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
+If everything went correctly, you should see something like this:
 
 ```
-git tag v0.1
-git push origin v0.1
+Blockchain is running
+
+👤 alice's account address: cosmos1hqlxz7a9t4l8ym7pwer6xy0k6lh6zf24pngng9
+👤 bob's account address: cosmos1dshpd7s2750u4szsu4lm2ey6mzxhn2n7yzl86t
+
+🌍 Tendermint node: http://0.0.0.0:26657
+🌍 Blockchain API: http://0.0.0.0:1317
+🌍 Token faucet: http://0.0.0.0:4500
+
+⋆ Data directory: <home directory>/.socialchain
+⋆ App binary: <home directory>/go/bin/socialchaind
 ```
 
-After a draft release is created, make your final changes from the release page and publish it.
+`App binary` is the executable and will be referenced with `<app_binary>` in this readme.
 
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
+## Commands
+
+**1) List all public keys stored locally:**
+
+    <app_binary> keys list
+
+You should see all available accounts ready to be used in development, eg:
 
 ```
-curl https://get.ignite.com/username/socialchain@latest! | sudo bash
+- address: cosmos1z9ekam8cy886vcyurye46g03d3vxnvg0at6j0y
+  name: alice
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"ApBBMScmNMt0sZU9EFUJ8d0uow7NYfnm7T4+BQpi1F2B"}'
+  type: local
 ```
-`username/socialchain` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
 
-## Learn more
 
-- [Ignite CLI](https://ignite.com/cli)
-- [Tutorials](https://docs.ignite.com/guide)
-- [Ignite CLI docs](https://docs.ignite.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/ignite)
+**2) Create a Post:**
+
+Run
+
+    <app_binary> tx posts create-post "Hello, world\!" --from cosmos19pcpvref07zshgvh0tv6e7mctzq90mnk8g9ltn --yes
+    
+to create a Post (use proper `--from` with `<app_binary> keys list`)
+

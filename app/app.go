@@ -75,7 +75,9 @@ import (
 	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
+	postsmodulekeeper "socialchain/x/posts/keeper"
 	socialchainmodulekeeper "socialchain/x/socialchain/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"socialchain/docs"
@@ -146,6 +148,7 @@ type App struct {
 	ScopedKeepers             map[string]capabilitykeeper.ScopedKeeper
 
 	SocialchainKeeper socialchainmodulekeeper.Keeper
+	PostsKeeper       postsmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -250,6 +253,7 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.SocialchainKeeper,
+		&app.PostsKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
