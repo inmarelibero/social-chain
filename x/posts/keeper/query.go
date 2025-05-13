@@ -31,7 +31,7 @@ func (k Keeper) LatestPosts(goCtx context.Context, req *types.QueryLatestPostsRe
 	count := k.GetPostCount(ctx)
 	var posts []*types.Post
 
-	for i := int64(count - 1); i > 0 && uint64(len(posts)) < req.Limit; i-- {
+	for i := int64(count); i > 0 && uint64(len(posts)) < req.Limit; i-- {
 		post, found := k.GetPost(ctx, uint64(i))
 
 		if found {

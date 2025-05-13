@@ -21,7 +21,7 @@ If everything went correctly, you should see something like this:
 ```
 Blockchain is running
 
-👤 alice's account address: cosmos1hqlxz7a9t4l8ym7pwer6xy0k6lh6zf24pngng9
+👤 alice's account address: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
 👤 bob's account address: cosmos1dshpd7s2750u4szsu4lm2ey6mzxhn2n7yzl86t
 
 🌍 Tendermint node: http://0.0.0.0:26657
@@ -34,31 +34,56 @@ Blockchain is running
 
 `App binary` is the executable and will be referenced with `<app_binary>` in this readme.
 
+
+## Development
+
+1) Project scaffolded (run `ignite scaffold chain socialchain`)
+2) Added ability to Post contents and retrieve the number of Posts, [Issue #1](https://github.com/inmarelibero/social-chain/issues/1)
+
 ## Commands
 
-**1) List all public keys stored locally:**
+**1) List all public keys stored locally**
 
     <app_binary> keys list
 
 You should see all available accounts ready to be used in development, eg:
 
 ```
-- address: cosmos1z9ekam8cy886vcyurye46g03d3vxnvg0at6j0y
+- address: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
   name: alice
-  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"ApBBMScmNMt0sZU9EFUJ8d0uow7NYfnm7T4+BQpi1F2B"}'
+  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"Au0oHuVn1+stWAhw2ZLbL6iPzBpcvAmOfFd+61Zou2Rk"}'
   type: local
 ```
 
-
-**2) Create a Post:**
+**2) Create a Post**
 
 Run
 
-    <app_binary> tx posts create-post "Hello, world\!" --from cosmos19pcpvref07zshgvh0tv6e7mctzq90mnk8g9ltn --yes
+    <app_binary> tx posts create-post "Hello, world\!" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes
     
 to create a Post (use proper `--from` with `<app_binary> keys list`)
 
-## Development
+**3) Retrieve the Posts count**
 
-1) Project scaffolded (run `ignite scaffold chain socialchain`)
-2) Added ability to Post contents and retrieve the number of Posts, [Issue #1](https://github.com/inmarelibero/social-chain/issues/1)
+Run
+
+    <app_binary> query posts post-count
+
+**3) Retrieve the latest Posts**
+
+Run
+
+    <app_binary> query posts latest-posts --limit 2
+
+It should return something like:
+
+    posts:
+    - body: Hello, world!
+      creator: cosmos1jfamrgr3glzjx2dfqu388xkjuqdp6552ytvprx
+      id: "2"
+      timestamp: "2025-05-13T14:23:14Z"
+    - body: Hello, world!
+      creator: cosmos1jfamrgr3glzjx2dfqu388xkjuqdp6552ytvprx
+      id: "1"
+      timestamp: "2025-05-13T14:23:12Z"
+
