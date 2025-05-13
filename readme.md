@@ -79,11 +79,11 @@ It should return something like:
 
     posts:
     - body: Hello, world!
-      creator: cosmos1jfamrgr3glzjx2dfqu388xkjuqdp6552ytvprx
+      creator: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
       id: "2"
       timestamp: "2025-05-13T14:23:14Z"
     - body: Hello, world!
-      creator: cosmos1jfamrgr3glzjx2dfqu388xkjuqdp6552ytvprx
+      creator: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
       id: "1"
       timestamp: "2025-05-13T14:23:12Z"
 
