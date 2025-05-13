@@ -20,7 +20,7 @@ service Query {
   rpc PostCount(QueryPostCountRequest) returns (QueryPostCountResponse);
 
   rpc LatestPosts(QueryLatestPostsRequest) returns (QueryLatestPostsResponse) {
-    option (google.api.http).get = "/socialchain/social/latest_posts";
+    option (google.api.http).get = "/socialchain/posts/latests";
   }
 }
 
