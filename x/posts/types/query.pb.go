@@ -194,40 +194,137 @@ func (m *QueryPostCountResponse) GetCount() uint64 {
 	return 0
 }
 
+// Request for querying latest posts
+type QueryLatestPostsRequest struct {
+	Limit uint64 `protobuf:"varint,1,opt,name=limit,proto3" json:"limit,omitempty"`
+}
+
+func (m *QueryLatestPostsRequest) Reset()         { *m = QueryLatestPostsRequest{} }
+func (m *QueryLatestPostsRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryLatestPostsRequest) ProtoMessage()    {}
+func (*QueryLatestPostsRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b42df2c692b65f6f, []int{4}
+}
+func (m *QueryLatestPostsRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryLatestPostsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryLatestPostsRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryLatestPostsRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLatestPostsRequest.Merge(m, src)
+}
+func (m *QueryLatestPostsRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryLatestPostsRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLatestPostsRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryLatestPostsRequest proto.InternalMessageInfo
+
+func (m *QueryLatestPostsRequest) GetLimit() uint64 {
+	if m != nil {
+		return m.Limit
+	}
+	return 0
+}
+
+// Response for latest posts
+type QueryLatestPostsResponse struct {
+	Posts []*Post `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
+}
+
+func (m *QueryLatestPostsResponse) Reset()         { *m = QueryLatestPostsResponse{} }
+func (m *QueryLatestPostsResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryLatestPostsResponse) ProtoMessage()    {}
+func (*QueryLatestPostsResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_b42df2c692b65f6f, []int{5}
+}
+func (m *QueryLatestPostsResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryLatestPostsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryLatestPostsResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryLatestPostsResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLatestPostsResponse.Merge(m, src)
+}
+func (m *QueryLatestPostsResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryLatestPostsResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLatestPostsResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryLatestPostsResponse proto.InternalMessageInfo
+
+func (m *QueryLatestPostsResponse) GetPosts() []*Post {
+	if m != nil {
+		return m.Posts
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "socialchain.posts.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "socialchain.posts.QueryParamsResponse")
 	proto.RegisterType((*QueryPostCountRequest)(nil), "socialchain.posts.QueryPostCountRequest")
 	proto.RegisterType((*QueryPostCountResponse)(nil), "socialchain.posts.QueryPostCountResponse")
+	proto.RegisterType((*QueryLatestPostsRequest)(nil), "socialchain.posts.QueryLatestPostsRequest")
+	proto.RegisterType((*QueryLatestPostsResponse)(nil), "socialchain.posts.QueryLatestPostsResponse")
 }
 
 func init() { proto.RegisterFile("socialchain/posts/query.proto", fileDescriptor_b42df2c692b65f6f) }
 
 var fileDescriptor_b42df2c692b65f6f = []byte{
-	// 353 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x51, 0x4d, 0x4e, 0x3a, 0x31,
-	0x14, 0x9f, 0xf9, 0xe7, 0x0f, 0x09, 0x75, 0x45, 0xc5, 0x0f, 0x46, 0xad, 0x3a, 0x89, 0x06, 0x59,
-	0x4c, 0x03, 0x6c, 0x5d, 0xe1, 0x05, 0x14, 0x77, 0xae, 0x2c, 0x93, 0x66, 0x9c, 0x04, 0xfa, 0x0a,
-	0x2d, 0x46, 0x5c, 0x7a, 0x02, 0x13, 0x2f, 0xe1, 0xd2, 0x63, 0xb0, 0x24, 0x71, 0xe3, 0xca, 0x18,
-	0xd0, 0x78, 0x0d, 0x43, 0x5b, 0x0d, 0x82, 0x44, 0x37, 0x93, 0x37, 0xef, 0xf7, 0xf9, 0x66, 0xd0,
-	0x96, 0x82, 0x38, 0x65, 0xad, 0xf8, 0x82, 0xa5, 0x82, 0x4a, 0x50, 0x5a, 0xd1, 0x4e, 0x8f, 0x77,
-	0xfb, 0x91, 0xec, 0x82, 0x06, 0x9c, 0x9f, 0x82, 0x23, 0x03, 0x07, 0x79, 0xd6, 0x4e, 0x05, 0x50,
-	0xf3, 0xb4, 0xac, 0xa0, 0x90, 0x40, 0x02, 0x66, 0xa4, 0x93, 0xc9, 0x6d, 0x37, 0x13, 0x80, 0xa4,
-	0xc5, 0x29, 0x93, 0x29, 0x65, 0x42, 0x80, 0x66, 0x3a, 0x05, 0xa1, 0x1c, 0x5a, 0x8e, 0x41, 0xb5,
-	0x41, 0xd1, 0x26, 0x53, 0xdc, 0x46, 0xd2, 0xcb, 0x4a, 0x93, 0x6b, 0x56, 0xa1, 0x92, 0x25, 0xa9,
-	0x30, 0x64, 0xc7, 0x25, 0xf3, 0x25, 0x25, 0xeb, 0xb2, 0xb6, 0xf3, 0x0a, 0x0b, 0x08, 0x9f, 0x4c,
-	0x1c, 0x8e, 0xcd, 0xb2, 0xc1, 0x3b, 0x3d, 0xae, 0x74, 0x78, 0x8a, 0x96, 0xbf, 0x6d, 0x95, 0x04,
-	0xa1, 0x38, 0x3e, 0x44, 0x59, 0x2b, 0x5e, 0xf7, 0x77, 0xfc, 0xd2, 0x52, 0xb5, 0x18, 0xcd, 0xdd,
-	0x18, 0x59, 0x49, 0x3d, 0x37, 0x78, 0xde, 0xf6, 0xee, 0xdf, 0x1f, 0xca, 0x7e, 0xc3, 0x69, 0xc2,
-	0x35, 0xb4, 0x62, 0x4d, 0x41, 0xe9, 0x23, 0xe8, 0x09, 0xfd, 0x99, 0x16, 0xa1, 0xd5, 0x59, 0xc0,
-	0x05, 0x16, 0x50, 0x26, 0x9e, 0x2c, 0x4c, 0xde, 0xff, 0x86, 0x7d, 0xa9, 0xbe, 0xf9, 0x28, 0x63,
-	0x04, 0xf8, 0x1a, 0x65, 0x6d, 0x1e, 0xde, 0xfb, 0xa1, 0xca, 0xfc, 0x61, 0xc1, 0xfe, 0x6f, 0x34,
-	0x1b, 0x1c, 0xee, 0xde, 0x3c, 0xbe, 0xde, 0xfd, 0xdb, 0xc0, 0x45, 0xba, 0xe8, 0xfb, 0xe1, 0x73,
-	0x94, 0xfb, 0x2a, 0x8c, 0x4b, 0x0b, 0x7d, 0x67, 0x8e, 0x0d, 0x0e, 0xfe, 0xc0, 0xb4, 0x25, 0xea,
-	0xb5, 0xc1, 0x88, 0xf8, 0xc3, 0x11, 0xf1, 0x5f, 0x46, 0xc4, 0xbf, 0x1d, 0x13, 0x6f, 0x38, 0x26,
-	0xde, 0xd3, 0x98, 0x78, 0x67, 0xc5, 0xe9, 0x56, 0x57, 0xae, 0x97, 0xee, 0x4b, 0xae, 0x9a, 0x59,
-	0xf3, 0x5f, 0x6b, 0x1f, 0x01, 0x00, 0x00, 0xff, 0xff, 0xea, 0x1e, 0x8b, 0xec, 0x9e, 0x02, 0x00,
-	0x00,
+	// 443 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0x3f, 0x6f, 0xd3, 0x40,
+	0x14, 0xcf, 0x15, 0x12, 0xa9, 0x97, 0xa9, 0x47, 0x20, 0x89, 0x09, 0xa6, 0x58, 0x02, 0x85, 0x20,
+	0x7c, 0x6a, 0xba, 0x32, 0x95, 0x09, 0x89, 0x01, 0xcc, 0xc6, 0xc4, 0xc5, 0x3a, 0x99, 0x93, 0xec,
+	0x7b, 0x6e, 0xde, 0x05, 0x51, 0x46, 0x46, 0x26, 0x24, 0xbe, 0x04, 0x23, 0x1f, 0xa3, 0x63, 0x25,
+	0x16, 0x26, 0x84, 0x12, 0x24, 0x76, 0x3e, 0x01, 0xf2, 0xdd, 0xa5, 0x0a, 0xb5, 0xa3, 0x76, 0xb1,
+	0xee, 0xde, 0xef, 0xcf, 0x7b, 0xef, 0x77, 0xa6, 0x77, 0x10, 0x52, 0x25, 0xf2, 0xf4, 0xad, 0x50,
+	0x9a, 0x97, 0x80, 0x06, 0xf9, 0xf1, 0x42, 0xce, 0x4f, 0xe2, 0x72, 0x0e, 0x06, 0xd8, 0xde, 0x06,
+	0x1c, 0x5b, 0x38, 0xd8, 0x13, 0x85, 0xd2, 0xc0, 0xed, 0xd7, 0xb1, 0x82, 0x5e, 0x06, 0x19, 0xd8,
+	0x23, 0xaf, 0x4e, 0xbe, 0x3a, 0xca, 0x00, 0xb2, 0x5c, 0x72, 0x51, 0x2a, 0x2e, 0xb4, 0x06, 0x23,
+	0x8c, 0x02, 0x8d, 0x1e, 0x9d, 0xa4, 0x80, 0x05, 0x20, 0x9f, 0x09, 0x94, 0xae, 0x25, 0x7f, 0x77,
+	0x30, 0x93, 0x46, 0x1c, 0xf0, 0x52, 0x64, 0x4a, 0x5b, 0xb2, 0xe7, 0x86, 0xf5, 0x21, 0x4b, 0x31,
+	0x17, 0xc5, 0xda, 0x6b, 0xd4, 0x80, 0x03, 0x1a, 0x87, 0x46, 0x3d, 0xca, 0x5e, 0x56, 0xfe, 0x2f,
+	0xac, 0x24, 0x91, 0xc7, 0x0b, 0x89, 0x26, 0x7a, 0x45, 0x6f, 0xfc, 0x57, 0xc5, 0x12, 0x34, 0x4a,
+	0xf6, 0x84, 0x76, 0x9c, 0xf5, 0x80, 0xec, 0x93, 0x71, 0x77, 0x3a, 0x8c, 0x6b, 0x09, 0xc4, 0x4e,
+	0x72, 0xb4, 0x7b, 0xfa, 0xf3, 0x6e, 0xeb, 0xeb, 0x9f, 0x6f, 0x13, 0x92, 0x78, 0x4d, 0xd4, 0xa7,
+	0x37, 0x9d, 0x29, 0xa0, 0x79, 0x0a, 0x0b, 0x6d, 0xd6, 0xdd, 0x62, 0x7a, 0xeb, 0x22, 0xe0, 0x1b,
+	0xf6, 0x68, 0x3b, 0xad, 0x0a, 0xb6, 0xdf, 0xf5, 0xc4, 0x5d, 0x22, 0x4e, 0xfb, 0x96, 0xff, 0x5c,
+	0x18, 0x89, 0xa6, 0x52, 0xad, 0x07, 0xaf, 0x04, 0xb9, 0x2a, 0xd4, 0xb9, 0xc0, 0x5e, 0xa2, 0x67,
+	0x74, 0x50, 0x17, 0xf8, 0x16, 0x8f, 0x69, 0xdb, 0x0e, 0x3e, 0x20, 0xfb, 0xd7, 0xc6, 0xdd, 0x69,
+	0xbf, 0x69, 0x25, 0x40, 0x93, 0x38, 0xd6, 0xf4, 0xef, 0x0e, 0x6d, 0x5b, 0x2f, 0xf6, 0x81, 0x76,
+	0xdc, 0xae, 0xec, 0x7e, 0x83, 0xa6, 0x1e, 0x6a, 0xf0, 0xe0, 0x32, 0x9a, 0x9b, 0x28, 0xba, 0xf7,
+	0xf1, 0xfb, 0xef, 0x2f, 0x3b, 0xb7, 0xd9, 0x90, 0x6f, 0x7b, 0x59, 0xf6, 0x86, 0xee, 0x9e, 0x87,
+	0xc5, 0xc6, 0x5b, 0x7d, 0x2f, 0x04, 0x1d, 0x3c, 0xbc, 0x02, 0xd3, 0xc7, 0xf2, 0x89, 0xd0, 0xee,
+	0x46, 0x5c, 0x6c, 0xb2, 0x4d, 0x5a, 0x7f, 0x84, 0xe0, 0xd1, 0x95, 0xb8, 0x7e, 0xdb, 0xc8, 0x6e,
+	0x3b, 0x62, 0x41, 0xc3, 0xb6, 0xb9, 0xe5, 0xe3, 0xd1, 0xe1, 0xe9, 0x32, 0x24, 0x67, 0xcb, 0x90,
+	0xfc, 0x5a, 0x86, 0xe4, 0xf3, 0x2a, 0x6c, 0x9d, 0xad, 0xc2, 0xd6, 0x8f, 0x55, 0xd8, 0x7a, 0x3d,
+	0xdc, 0x14, 0xbd, 0xf7, 0x32, 0x73, 0x52, 0x4a, 0x9c, 0x75, 0xec, 0x0f, 0x7e, 0xf8, 0x2f, 0x00,
+	0x00, 0xff, 0xff, 0xa1, 0x3a, 0xc7, 0xab, 0xc5, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -245,6 +342,7 @@ type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	PostCount(ctx context.Context, in *QueryPostCountRequest, opts ...grpc.CallOption) (*QueryPostCountResponse, error)
+	LatestPosts(ctx context.Context, in *QueryLatestPostsRequest, opts ...grpc.CallOption) (*QueryLatestPostsResponse, error)
 }
 
 type queryClient struct {
@@ -273,11 +371,21 @@ func (c *queryClient) PostCount(ctx context.Context, in *QueryPostCountRequest, 
 	return out, nil
 }
 
+func (c *queryClient) LatestPosts(ctx context.Context, in *QueryLatestPostsRequest, opts ...grpc.CallOption) (*QueryLatestPostsResponse, error) {
+	out := new(QueryLatestPostsResponse)
+	err := c.cc.Invoke(ctx, "/socialchain.posts.Query/LatestPosts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	PostCount(context.Context, *QueryPostCountRequest) (*QueryPostCountResponse, error)
+	LatestPosts(context.Context, *QueryLatestPostsRequest) (*QueryLatestPostsResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -289,6 +397,9 @@ func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsReq
 }
 func (*UnimplementedQueryServer) PostCount(ctx context.Context, req *QueryPostCountRequest) (*QueryPostCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostCount not implemented")
+}
+func (*UnimplementedQueryServer) LatestPosts(ctx context.Context, req *QueryLatestPostsRequest) (*QueryLatestPostsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LatestPosts not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -331,6 +442,24 @@ func _Query_PostCount_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_LatestPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryLatestPostsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LatestPosts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/socialchain.posts.Query/LatestPosts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LatestPosts(ctx, req.(*QueryLatestPostsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "socialchain.posts.Query",
@@ -343,6 +472,10 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PostCount",
 			Handler:    _Query_PostCount_Handler,
+		},
+		{
+			MethodName: "LatestPosts",
+			Handler:    _Query_LatestPosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -456,6 +589,71 @@ func (m *QueryPostCountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryLatestPostsRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryLatestPostsRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryLatestPostsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Limit != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.Limit))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryLatestPostsResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryLatestPostsResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryLatestPostsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Posts) > 0 {
+		for iNdEx := len(m.Posts) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Posts[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -504,6 +702,33 @@ func (m *QueryPostCountResponse) Size() (n int) {
 	_ = l
 	if m.Count != 0 {
 		n += 1 + sovQuery(uint64(m.Count))
+	}
+	return n
+}
+
+func (m *QueryLatestPostsRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Limit != 0 {
+		n += 1 + sovQuery(uint64(m.Limit))
+	}
+	return n
+}
+
+func (m *QueryLatestPostsResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Posts) > 0 {
+		for _, e := range m.Posts {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
 	}
 	return n
 }
@@ -745,6 +970,159 @@ func (m *QueryPostCountResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryLatestPostsRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryLatestPostsRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryLatestPostsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Limit", wireType)
+			}
+			m.Limit = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Limit |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryLatestPostsResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryLatestPostsResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryLatestPostsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Posts", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Posts = append(m.Posts, &Post{})
+			if err := m.Posts[len(m.Posts)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])

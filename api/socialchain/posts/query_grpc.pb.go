@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName    = "/socialchain.posts.Query/Params"
-	Query_PostCount_FullMethodName = "/socialchain.posts.Query/PostCount"
+	Query_Params_FullMethodName      = "/socialchain.posts.Query/Params"
+	Query_PostCount_FullMethodName   = "/socialchain.posts.Query/PostCount"
+	Query_LatestPosts_FullMethodName = "/socialchain.posts.Query/LatestPosts"
 )
 
 // QueryClient is the client API for Query service.
@@ -30,6 +31,7 @@ type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	PostCount(ctx context.Context, in *QueryPostCountRequest, opts ...grpc.CallOption) (*QueryPostCountResponse, error)
+	LatestPosts(ctx context.Context, in *QueryLatestPostsRequest, opts ...grpc.CallOption) (*QueryLatestPostsResponse, error)
 }
 
 type queryClient struct {
@@ -58,6 +60,15 @@ func (c *queryClient) PostCount(ctx context.Context, in *QueryPostCountRequest, 
 	return out, nil
 }
 
+func (c *queryClient) LatestPosts(ctx context.Context, in *QueryLatestPostsRequest, opts ...grpc.CallOption) (*QueryLatestPostsResponse, error) {
+	out := new(QueryLatestPostsResponse)
+	err := c.cc.Invoke(ctx, Query_LatestPosts_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -65,6 +76,7 @@ type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	PostCount(context.Context, *QueryPostCountRequest) (*QueryPostCountResponse, error)
+	LatestPosts(context.Context, *QueryLatestPostsRequest) (*QueryLatestPostsResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -77,6 +89,9 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) PostCount(context.Context, *QueryPostCountRequest) (*QueryPostCountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PostCount not implemented")
+}
+func (UnimplementedQueryServer) LatestPosts(context.Context, *QueryLatestPostsRequest) (*QueryLatestPostsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LatestPosts not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -127,6 +142,24 @@ func _Query_PostCount_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_LatestPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryLatestPostsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).LatestPosts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_LatestPosts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).LatestPosts(ctx, req.(*QueryLatestPostsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -141,6 +174,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PostCount",
 			Handler:    _Query_PostCount_Handler,
+		},
+		{
+			MethodName: "LatestPosts",
+			Handler:    _Query_LatestPosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

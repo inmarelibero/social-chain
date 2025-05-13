@@ -1,5 +1,7 @@
 package types
 
+import fmt "fmt"
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "posts"
@@ -21,4 +23,8 @@ var (
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)
+}
+
+func GetPostKey(id uint64) []byte {
+	return []byte(fmt.Sprintf("%s%d", PostKeyPrefix, id))
 }

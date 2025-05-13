@@ -68,7 +68,7 @@ func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
 	return uint64(bz[0])
 }
 
-// SetPost
+// SetPost stores a post in the store
 func (k Keeper) SetPost(ctx sdk.Context, post types.Post) {
 	store := k.storeService.OpenKVStore(ctx)
 
@@ -84,7 +84,9 @@ func (k Keeper) SetPost(ctx sdk.Context, post types.Post) {
 		panic(err)
 	}
 
-	store.Set(types.KeyPrefix(types.PostKeyPrefix), bz)
+	// Store post with a unique key including post ID
+	postKey := types.GetPostKey(id)
+	store.Set(postKey, bz)
 
 	// Update post count
 	k.SetPostCount(ctx, id)
@@ -101,4 +103,28 @@ func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// GetPost retrieves a post by ID
+func (k Keeper) GetPost(ctx sdk.Context, id uint64) (val types.Post, found bool) {
+	store := k.storeService.OpenKVStore(ctx)
+
+	postKey := types.GetPostKey(id)
+	bz, err := store.Get(postKey)
+
+	if bz == nil {
+		return val, false
+	}
+
+	if err != nil {
+		panic(err)
+	}
+
+	k.cdc.MustUnmarshal(bz, &val)
+
+	return val, true
+}
+
+func GetPostIDBytes(id uint64) []byte {
+	return sdk.Uint64ToBigEndian(id)
 }
