@@ -69,7 +69,7 @@ Run
 
     <app_binary> query posts post-count
 
-**3) Retrieve the latest Posts**
+**4) Retrieve the latest Posts**
 
 Run
 
