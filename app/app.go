@@ -78,6 +78,7 @@ import (
 	postsmodulekeeper "socialchain/x/posts/keeper"
 	socialchainmodulekeeper "socialchain/x/socialchain/keeper"
 
+	handlesmodulekeeper "socialchain/x/handles/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"socialchain/docs"
@@ -149,6 +150,7 @@ type App struct {
 
 	SocialchainKeeper socialchainmodulekeeper.Keeper
 	PostsKeeper       postsmodulekeeper.Keeper
+	HandlesKeeper     handlesmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -254,6 +256,7 @@ func New(
 		&app.CircuitBreakerKeeper,
 		&app.SocialchainKeeper,
 		&app.PostsKeeper,
+		&app.HandlesKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
