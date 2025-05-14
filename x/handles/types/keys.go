@@ -1,6 +1,9 @@
 package types
 
-import fmt "fmt"
+import (
+	fmt "fmt"
+	"strings"
+)
 
 const (
 	// ModuleName defines the module name
@@ -25,5 +28,7 @@ func KeyPrefix(p string) []byte {
 }
 
 func GetHandleKey(handle string) []byte {
+	handle = strings.ToLower(handle)
+
 	return []byte(fmt.Sprintf("%s%s", HandleKeyPrefix, handle))
 }
