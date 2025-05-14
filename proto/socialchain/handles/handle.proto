@@ -4,6 +4,7 @@ package socialchain.handles;
 option go_package = "socialchain/x/handles/types";
 
 message Handle {
-  string owner = 1;
-  string handle = 2;
+  uint64 id = 1;
+  string owner = 2;
+  string handle = 3;
 }

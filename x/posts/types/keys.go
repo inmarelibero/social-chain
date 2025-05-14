@@ -14,7 +14,7 @@ const (
 
 	// Key prefixes
 	PostKeyPrefix      = "Post/value/"
-	PostCountKeyPrefix = "Post/count/"
+	PostCountKeyPrefix = "Post/count/" // TODO rename into PostsCountKey
 )
 
 var (

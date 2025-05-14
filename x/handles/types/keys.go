@@ -15,8 +15,12 @@ const (
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_handles"
 
-	// Key prefixes
+	// Keys and prefixes
 	HandleKeyPrefix = "Handle/value/"
+	HandlesCountKey = "Post/count"
+
+	// key to store handles (as string) by their id
+	HandlesById = "Handle/id_index/"
 )
 
 var (
@@ -32,4 +36,8 @@ func GetHandleKey(handle string) []byte {
 	handle = strings.ToLower(handle)
 
 	return []byte(fmt.Sprintf("%s%s", HandleKeyPrefix, handle))
+}
+
+func GetHandlesByIdKey(id uint64) []byte {
+	return []byte(fmt.Sprintf("%s%d", HandlesById, id))
 }

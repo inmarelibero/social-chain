@@ -14,6 +14,7 @@ import (
 
 var (
 	md_Handle        protoreflect.MessageDescriptor
+	fd_Handle_id     protoreflect.FieldDescriptor
 	fd_Handle_owner  protoreflect.FieldDescriptor
 	fd_Handle_handle protoreflect.FieldDescriptor
 )
@@ -21,6 +22,7 @@ var (
 func init() {
 	file_socialchain_handles_handle_proto_init()
 	md_Handle = File_socialchain_handles_handle_proto.Messages().ByName("Handle")
+	fd_Handle_id = md_Handle.Fields().ByName("id")
 	fd_Handle_owner = md_Handle.Fields().ByName("owner")
 	fd_Handle_handle = md_Handle.Fields().ByName("handle")
 }
@@ -90,6 +92,12 @@ func (x *fastReflection_Handle) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_Handle) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Id != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Id)
+		if !f(fd_Handle_id, value) {
+			return
+		}
+	}
 	if x.Owner != "" {
 		value := protoreflect.ValueOfString(x.Owner)
 		if !f(fd_Handle_owner, value) {
@@ -117,6 +125,8 @@ func (x *fastReflection_Handle) Range(f func(protoreflect.FieldDescriptor, proto
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_Handle) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "socialchain.handles.Handle.id":
+		return x.Id != uint64(0)
 	case "socialchain.handles.Handle.owner":
 		return x.Owner != ""
 	case "socialchain.handles.Handle.handle":
@@ -137,6 +147,8 @@ func (x *fastReflection_Handle) Has(fd protoreflect.FieldDescriptor) bool {
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Handle) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "socialchain.handles.Handle.id":
+		x.Id = uint64(0)
 	case "socialchain.handles.Handle.owner":
 		x.Owner = ""
 	case "socialchain.handles.Handle.handle":
@@ -157,6 +169,9 @@ func (x *fastReflection_Handle) Clear(fd protoreflect.FieldDescriptor) {
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_Handle) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "socialchain.handles.Handle.id":
+		value := x.Id
+		return protoreflect.ValueOfUint64(value)
 	case "socialchain.handles.Handle.owner":
 		value := x.Owner
 		return protoreflect.ValueOfString(value)
@@ -183,6 +198,8 @@ func (x *fastReflection_Handle) Get(descriptor protoreflect.FieldDescriptor) pro
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Handle) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "socialchain.handles.Handle.id":
+		x.Id = value.Uint()
 	case "socialchain.handles.Handle.owner":
 		x.Owner = value.Interface().(string)
 	case "socialchain.handles.Handle.handle":
@@ -207,6 +224,8 @@ func (x *fastReflection_Handle) Set(fd protoreflect.FieldDescriptor, value proto
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Handle) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "socialchain.handles.Handle.id":
+		panic(fmt.Errorf("field id of message socialchain.handles.Handle is not mutable"))
 	case "socialchain.handles.Handle.owner":
 		panic(fmt.Errorf("field owner of message socialchain.handles.Handle is not mutable"))
 	case "socialchain.handles.Handle.handle":
@@ -224,6 +243,8 @@ func (x *fastReflection_Handle) Mutable(fd protoreflect.FieldDescriptor) protore
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_Handle) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "socialchain.handles.Handle.id":
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "socialchain.handles.Handle.owner":
 		return protoreflect.ValueOfString("")
 	case "socialchain.handles.Handle.handle":
@@ -297,6 +318,9 @@ func (x *fastReflection_Handle) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
+		if x.Id != 0 {
+			n += 1 + runtime.Sov(uint64(x.Id))
+		}
 		l = len(x.Owner)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
@@ -339,14 +363,19 @@ func (x *fastReflection_Handle) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], x.Handle)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Handle)))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 		if len(x.Owner) > 0 {
 			i -= len(x.Owner)
 			copy(dAtA[i:], x.Owner)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Owner)))
 			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x12
+		}
+		if x.Id != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Id))
+			i--
+			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -398,6 +427,25 @@ func (x *fastReflection_Handle) ProtoMethods() *protoiface.Methods {
 			}
 			switch fieldNum {
 			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+				}
+				x.Id = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.Id |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
 				}
@@ -429,7 +477,7 @@ func (x *fastReflection_Handle) ProtoMethods() *protoiface.Methods {
 				}
 				x.Owner = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 2:
+			case 3:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Handle", wireType)
 				}
@@ -514,8 +562,9 @@ type Handle struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Owner  string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
-	Handle string `protobuf:"bytes,2,opt,name=handle,proto3" json:"handle,omitempty"`
+	Id     uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Owner  string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	Handle string `protobuf:"bytes,3,opt,name=handle,proto3" json:"handle,omitempty"`
 }
 
 func (x *Handle) Reset() {
@@ -538,6 +587,13 @@ func (*Handle) Descriptor() ([]byte, []int) {
 	return file_socialchain_handles_handle_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *Handle) GetId() uint64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 func (x *Handle) GetOwner() string {
 	if x != nil {
 		return x.Owner
@@ -558,10 +614,11 @@ var file_socialchain_handles_handle_proto_rawDesc = []byte{
 	0x0a, 0x20, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2f, 0x68, 0x61,
 	0x6e, 0x64, 0x6c, 0x65, 0x73, 0x2f, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x12, 0x13, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e,
-	0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x73, 0x22, 0x36, 0x0a, 0x06, 0x48, 0x61, 0x6e, 0x64, 0x6c,
-	0x65, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x73, 0x22, 0x46, 0x0a, 0x06, 0x48, 0x61, 0x6e, 0x64, 0x6c,
+	0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x02, 0x69,
+	0x64, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c,
-	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x42,
+	0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x42,
 	0xb8, 0x01, 0x0a, 0x17, 0x63, 0x6f, 0x6d, 0x2e, 0x73, 0x6f, 0x63, 0x69, 0x61, 0x6c, 0x63, 0x68,
 	0x61, 0x69, 0x6e, 0x2e, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x73, 0x42, 0x0b, 0x48, 0x61, 0x6e,
 	0x64, 0x6c, 0x65, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x73, 0x6f, 0x63, 0x69,

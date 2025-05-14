@@ -40,6 +40,7 @@ message QueryHandleOwnerRequest {
 
 // Response type
 message QueryHandleOwnerResponse {
-  string handle = 1;
-  string owner = 2;
+  string id = 1;
+  string handle = 2;
+  string owner = 3;
 }

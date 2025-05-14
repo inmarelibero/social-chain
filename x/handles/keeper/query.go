@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"socialchain/x/handles/types"
+	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -24,6 +25,7 @@ func (k Keeper) OwnerOf(goCtx context.Context, req *types.QueryHandleOwnerReques
 	}
 
 	return &types.QueryHandleOwnerResponse{
+		Id:     strconv.FormatUint(handle.Id, 10),
 		Handle: handle.Handle,
 		Owner:  string(handle.Owner),
 	}, nil

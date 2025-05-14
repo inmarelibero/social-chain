@@ -1229,6 +1229,7 @@ func (x *fastReflection_QueryHandleOwnerRequest) ProtoMethods() *protoiface.Meth
 
 var (
 	md_QueryHandleOwnerResponse        protoreflect.MessageDescriptor
+	fd_QueryHandleOwnerResponse_id     protoreflect.FieldDescriptor
 	fd_QueryHandleOwnerResponse_handle protoreflect.FieldDescriptor
 	fd_QueryHandleOwnerResponse_owner  protoreflect.FieldDescriptor
 )
@@ -1236,6 +1237,7 @@ var (
 func init() {
 	file_socialchain_handles_query_proto_init()
 	md_QueryHandleOwnerResponse = File_socialchain_handles_query_proto.Messages().ByName("QueryHandleOwnerResponse")
+	fd_QueryHandleOwnerResponse_id = md_QueryHandleOwnerResponse.Fields().ByName("id")
 	fd_QueryHandleOwnerResponse_handle = md_QueryHandleOwnerResponse.Fields().ByName("handle")
 	fd_QueryHandleOwnerResponse_owner = md_QueryHandleOwnerResponse.Fields().ByName("owner")
 }
@@ -1305,6 +1307,12 @@ func (x *fastReflection_QueryHandleOwnerResponse) Interface() protoreflect.Proto
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_QueryHandleOwnerResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Id != "" {
+		value := protoreflect.ValueOfString(x.Id)
+		if !f(fd_QueryHandleOwnerResponse_id, value) {
+			return
+		}
+	}
 	if x.Handle != "" {
 		value := protoreflect.ValueOfString(x.Handle)
 		if !f(fd_QueryHandleOwnerResponse_handle, value) {
@@ -1332,6 +1340,8 @@ func (x *fastReflection_QueryHandleOwnerResponse) Range(f func(protoreflect.Fiel
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_QueryHandleOwnerResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		return x.Id != ""
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		return x.Handle != ""
 	case "socialchain.handles.QueryHandleOwnerResponse.owner":
@@ -1352,6 +1362,8 @@ func (x *fastReflection_QueryHandleOwnerResponse) Has(fd protoreflect.FieldDescr
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryHandleOwnerResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		x.Id = ""
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		x.Handle = ""
 	case "socialchain.handles.QueryHandleOwnerResponse.owner":
@@ -1372,6 +1384,9 @@ func (x *fastReflection_QueryHandleOwnerResponse) Clear(fd protoreflect.FieldDes
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_QueryHandleOwnerResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		value := x.Id
+		return protoreflect.ValueOfString(value)
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		value := x.Handle
 		return protoreflect.ValueOfString(value)
@@ -1398,6 +1413,8 @@ func (x *fastReflection_QueryHandleOwnerResponse) Get(descriptor protoreflect.Fi
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryHandleOwnerResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		x.Id = value.Interface().(string)
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		x.Handle = value.Interface().(string)
 	case "socialchain.handles.QueryHandleOwnerResponse.owner":
@@ -1422,6 +1439,8 @@ func (x *fastReflection_QueryHandleOwnerResponse) Set(fd protoreflect.FieldDescr
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryHandleOwnerResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		panic(fmt.Errorf("field id of message socialchain.handles.QueryHandleOwnerResponse is not mutable"))
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		panic(fmt.Errorf("field handle of message socialchain.handles.QueryHandleOwnerResponse is not mutable"))
 	case "socialchain.handles.QueryHandleOwnerResponse.owner":
@@ -1439,6 +1458,8 @@ func (x *fastReflection_QueryHandleOwnerResponse) Mutable(fd protoreflect.FieldD
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_QueryHandleOwnerResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "socialchain.handles.QueryHandleOwnerResponse.id":
+		return protoreflect.ValueOfString("")
 	case "socialchain.handles.QueryHandleOwnerResponse.handle":
 		return protoreflect.ValueOfString("")
 	case "socialchain.handles.QueryHandleOwnerResponse.owner":
@@ -1512,6 +1533,10 @@ func (x *fastReflection_QueryHandleOwnerResponse) ProtoMethods() *protoiface.Met
 		var n int
 		var l int
 		_ = l
+		l = len(x.Id)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		l = len(x.Handle)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
@@ -1554,12 +1579,19 @@ func (x *fastReflection_QueryHandleOwnerResponse) ProtoMethods() *protoiface.Met
 			copy(dAtA[i:], x.Owner)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Owner)))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x1a
 		}
 		if len(x.Handle) > 0 {
 			i -= len(x.Handle)
 			copy(dAtA[i:], x.Handle)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Handle)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Id) > 0 {
+			i -= len(x.Id)
+			copy(dAtA[i:], x.Id)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Id)))
 			i--
 			dAtA[i] = 0xa
 		}
@@ -1614,6 +1646,38 @@ func (x *fastReflection_QueryHandleOwnerResponse) ProtoMethods() *protoiface.Met
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Id = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Handle", wireType)
 				}
 				var stringLen uint64
@@ -1644,7 +1708,7 @@ func (x *fastReflection_QueryHandleOwnerResponse) ProtoMethods() *protoiface.Met
 				}
 				x.Handle = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 2:
+			case 3:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
 				}
@@ -1830,8 +1894,9 @@ type QueryHandleOwnerResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Handle string `protobuf:"bytes,1,opt,name=handle,proto3" json:"handle,omitempty"`
-	Owner  string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	Id     string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Handle string `protobuf:"bytes,2,opt,name=handle,proto3" json:"handle,omitempty"`
+	Owner  string `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
 func (x *QueryHandleOwnerResponse) Reset() {
@@ -1852,6 +1917,13 @@ func (*QueryHandleOwnerResponse) ProtoMessage() {}
 // Deprecated: Use QueryHandleOwnerResponse.ProtoReflect.Descriptor instead.
 func (*QueryHandleOwnerResponse) Descriptor() ([]byte, []int) {
 	return file_socialchain_handles_query_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *QueryHandleOwnerResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *QueryHandleOwnerResponse) GetHandle() string {
@@ -1893,11 +1965,12 @@ var file_socialchain_handles_query_proto_rawDesc = []byte{
 	0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x31, 0x0a, 0x17, 0x51, 0x75, 0x65, 0x72,
 	0x79, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x22, 0x48, 0x0a, 0x18, 0x51,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x22, 0x58, 0x0a, 0x18, 0x51,
 	0x75, 0x65, 0x72, 0x79, 0x48, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x12,
-	0x14, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x12,
+	0x14, 0x0a, 0x05, 0x6f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x6f, 0x77, 0x6e, 0x65, 0x72, 0x32, 0xa3, 0x02, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12,
 	0x80, 0x01, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x27, 0x2e, 0x73, 0x6f, 0x63,
 	0x69, 0x61, 0x6c, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x2e, 0x68, 0x61, 0x6e, 0x64, 0x6c, 0x65, 0x73,
