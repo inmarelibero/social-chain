@@ -51,3 +51,53 @@ func (k Keeper) GetAuthority() string {
 func (k Keeper) Logger() log.Logger {
 	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
+
+// SetHandle
+func (k Keeper) SetHandle(ctx sdk.Context, handle types.Handle) {
+	store := k.storeService.OpenKVStore(ctx)
+
+	//
+	bz, err := k.cdc.Marshal(&handle)
+
+	if err != nil {
+		panic(err)
+	}
+
+	handleKey := types.GetHandleKey(handle.Handle)
+	store.Set(handleKey, bz)
+}
+
+// GetHandleByHandle
+func (k Keeper) GetHandleByHandle(ctx sdk.Context, handle string) (val types.Handle, found bool) {
+	store := k.storeService.OpenKVStore(ctx)
+
+	postKey := types.GetHandleKey(handle)
+	bz, err := store.Get(postKey)
+
+	if bz == nil {
+		return val, false
+	}
+
+	if err != nil {
+		panic(err)
+	}
+
+	k.cdc.MustUnmarshal(bz, &val)
+
+	return val, true
+}
+
+// HasHandle
+func (k Keeper) HasHandle(ctx sdk.Context, handle string) bool {
+	store := k.storeService.OpenKVStore(ctx)
+
+	handleKey := types.GetHandleKey(handle)
+
+	bz, err := store.Has(handleKey)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return bz
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+package socialchain.handles;
+
+option go_package = "socialchain/x/handles/types";
+
+message Handle {
+  string owner = 1;
+  string handle = 2;
+}

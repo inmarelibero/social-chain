@@ -1,89 +1,154 @@
-# socialchain
+# tmtop
 
-**socialchain** is an open source project I'm using to learn Cosmos SDk and Go.
+![Latest release](https://img.shields.io/github/v/release/QuokkaStake/tmtop)
+[![Actions Status](https://github.com/QuokkaStake/tmtop/workflows/test/badge.svg)](https://github.com/QuokkaStake/tmtop/actions)
 
-The purpose is to build an L1 blockchain with the features of a social network, like:
-- post
-- like
+tmtop is a tool that can visualize the consensus on any Tendermint-based chain in a top-like way.
+It is heavily inspired by [pvtop](https://github.com/blockpane/pvtop) and is in fact a from-scratch rewrite of it.
 
-It's built using Cosmos SDK and Tendermint, and created with Ignite.
+It can do the following:
+- display the consensus state of the current block (the percentage, who prevoted/precommitted and who didn't etc.)
+- display chain info (chain-id, block time, Tendermint version etc.)
+- display chain upgrade info and estimated time
+- work with non cosmos-sdk chains (for instance, Nomic; it won't be able to display the validators' monikers then)
+- work with ICS (fetching the validators list from the provider chain while taking the consensus from the consumer chain)
+- display both the consensus state for the last round (same way as pvtop, for example)
+or for all rounds (this is useful to see which rounds your validator has prevoted/precommitted on)
+- display the consensus state for a chain that didn't produce a single block (useful for genesis launch)
 
-## Prerequisites
+See how it looks like (on Sentinel chain, which is cosmos-sdk based chain, and Nomic, which uses Tendermint
+but not cosmos-sdk):
+[![asciicast](https://asciinema.org/a/pnmH6j1MHGNdUY8y4eF2Ut21M.svg)](https://asciinema.org/a/pnmH6j1MHGNdUY8y4eF2Ut21M)
 
-- `go: 1.24.3`
+## How can I set it up?
 
-## Get started
+Download the latest release from [the releases page](https://github.com/QuokkaStake/tmtop/releases/). After that, you should unzip it, and you are ready to go:
 
-Run `ignite chain serve` to installs dependencies, builds, initializes, and starts your blockchain locally.
+```sh
+# auto
+wget $(curl -s https://api.github.com/repos/QuokkaStake/tmtop/releases/latest | grep "browser_download_url.*linux_amd64.tar.gz" | cut -d '"' -f 4) -O tmtop_linux_amd64_latest_release.tar.gz && tar zxvf tmtop_linux_amd64_latest_release.tar.gz && cp tmtop /usr/local/bin/ && tmtop
 
-If everything went correctly, you should see something like this:
-
-```
-Blockchain is running
-
-👤 alice's account address: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
-👤 bob's account address: cosmos1dshpd7s2750u4szsu4lm2ey6mzxhn2n7yzl86t
-
-🌍 Tendermint node: http://0.0.0.0:26657
-🌍 Blockchain API: http://0.0.0.0:1317
-🌍 Token faucet: http://0.0.0.0:4500
-
-⋆ Data directory: <home directory>/.socialchain
-⋆ App binary: <home directory>/go/bin/socialchaind
-```
-
-`App binary` is the executable and will be referenced with `<app_binary>` in this readme.
-
-
-## Development
-
-1) Project scaffolded (run `ignite scaffold chain socialchain`)
-2) Added ability to Post contents and retrieve the number of Posts, [Issue #1](https://github.com/inmarelibero/social-chain/issues/1)
-
-## Commands
-
-**1) List all public keys stored locally**
-
-    <app_binary> keys list
-
-You should see all available accounts ready to be used in development, eg:
-
-```
-- address: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
-  name: alice
-  pubkey: '{"@type":"/cosmos.crypto.secp256k1.PubKey","key":"Au0oHuVn1+stWAhw2ZLbL6iPzBpcvAmOfFd+61Zou2Rk"}'
-  type: local
+# manual
+wget <the link from the releases page>
+tar <downloaded file>
+./tmtop --config <path to config>
 ```
 
-**2) Create a Post**
+Alternatively, install `golang` (>=1.21), clone the repo and build it:
+```
+git clone https://github.com/QuokkaStake/tmtop
+cd tmtop
+# This will generate a `tmtop` binary file in the repository folder
+make build
+# This will generate a `tmtop` binary file in $GOPATH/bin
+```
 
-Run
+Then just run it:
 
-    <app_binary> tx posts create-post "Hello, world\!" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes
-    
-to create a Post (use proper `--from` with `<app_binary> keys list`)
+```
+./tmtop [args]
+```
 
-**3) Retrieve the Posts count**
+To run it for a sovereign Cosmos-based chain, something like this should be enough:
+```
+./tmtop <RPC host address>
+```
 
-Run
+To run it for a sovereign chain that is not Cosmos-based (for example, Nomic), something like this should be enough
+(this will limit the app possibilities, as in, it won't display validators monikers,
+upgrades status etc.):
+```
+./tmtop <RPC host address> --chain-type tendermint
+```
 
-    <app_binary> query posts post-count
+If a chain is not Cosmos-based, but exposes a webserver that is compatible with LCD REST API of cosmos-sdk,
+you can try running it this way to fetch data from LCD (the `--lcd-host` parameter is not used in other cases):
+```
+./tmtop <RPC host address> --chain-type cosmos-lcd --lcd-host <LCD host address>
+```
 
-**4) Retrieve the latest Posts**
+To run it for a Cosmos-based consumer chains (like Stride or Neutron),
+something like this should be enough:
+```
+./tmtop <RPC host address> --provider-rpc-host <provider RPC host> --consumer-id <consumer ID>
+```
 
-Run
+(Keep in mind that consumer-id is not the same as consumer chain-id, you can get one
+from the output of `<appd> query provider list-consumer-chains` under the `consumer_id` field.)
 
-    <app_binary> query posts latest-posts --limit 2
+There are more parameters to tweak, for all the possible arguments, see `./tmtop --help`.
 
-It should return something like:
 
-    posts:
-    - body: Hello, world!
-      creator: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
-      id: "2"
-      timestamp: "2025-05-13T14:23:14Z"
-    - body: Hello, world!
-      creator: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
-      id: "1"
-      timestamp: "2025-05-13T14:23:12Z"
+## How does it work?
 
+It queries Tendermint's RPC node to get the following data:
+- consensus state
+- validators list and their voting power
+- blocks and their time difference
+and uses this data to build a consensus state to visualise.
+
+If it fails to scrape the validators list, it falls back to use genesis for both Cosmos validators list
+and Tendermint validators list, either taking them from genesis' staking module state (if the genesis is done
+by exporting the previous state), or from gentxs (if it's the launch of a branch new chain).
+
+(Note: fetching the genesis data from LCD is not supported, as apparently LCD does not provide the endpoint
+to fetch genesis.)
+
+Additionally, if it's a cosmos-sdk chain, it can also fetch the following data via the abci_query query:
+- chain upgrade info
+- validators list (to show validators' monikers instead of addresses)
+
+## How can I configure it?
+
+All configuration is done via flags, see `./tmtop --help` for the list of flags.
+Additionally, the app itself has a few shortcuts allowing you to control it.
+You can press the [h] button to display the help message, which will show you the shortcuts and when/how to use them.
+
+This app has 2 modes, use [Tab] button to switch between them:
+- display prevotes/precommits for the last height/round
+- display prevotes/precommits for all rounds for current height
+
+## Troubleshooting
+
+If you have issues with the app, try pressing the D button to open the debug panel.
+Most likely, the app cannot connect to one of the hosts it needs to connect.
+If there's something unusual, feel free to report a bug on this repository.
+You can also enable debug logging and write them to file in addition to the debug panel
+by running tmtop with `--verbose --debug-file <path-to-file>`.
+
+Some common errors:
+
+Q: The app displays nothing and is stuck.
+
+![Telegram](https://raw.githubusercontent.com/QuokkaStake/tmtop/main/images/rpc-host-issues.jpg)
+
+A: It's likely the app cannot connect to the RPC host to get data from.
+
+Q: The app displays hashes instead of validators' monikers.
+
+![Telegram](https://raw.githubusercontent.com/QuokkaStake/tmtop/main/images/provider-host-issues.jpg)
+
+A: For consumer chains, it's likely that the app cannot connect to the provider host,
+or it's not specified (so the app thinks it's a sovereign chain and tries to get validators
+out of the consumer chain). Additionally, this won't work with non-cosmos-sdk chains, like Nomic, if the chain's
+Tendermint /abci_query endpoint doesn't return validators when querying for them.
+
+Q: The app displays some monikers as hashes on a consumer chain.
+
+![Telegram](https://raw.githubusercontent.com/QuokkaStake/tmtop/main/images/wrong-chain-id.jpg)
+
+A: Verify you have a correct `--consumer-id` specified.
+
+## Which networks this is guaranteed to work?
+
+In theory, it should work on any Tendermint-based network with any node that has its RPC accessible.
+
+For cosmos-sdk chains, it should also allow displaying the upgrade info and the validators list.
+
+For non cosmos-sdk chains, it can also display this data given the chain implements the wrapper
+that returns the data in cosmos-sdk LCD compatible format (namely, validators list endpoint and upgrade plan one),
+`--chain-type cosmos-lcd` is used and the correct LCD path is provided.
+
+## How can I contribute?
+
+Bug reports and feature requests are always welcome! If you want to contribute, feel free to open issues or PRs.

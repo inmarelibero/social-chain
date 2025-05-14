@@ -1,5 +1,7 @@
 package types
 
+import fmt "fmt"
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "handles"
@@ -9,6 +11,9 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_handles"
+
+	// Key prefixes
+	HandleKeyPrefix = "Handle/value/"
 )
 
 var (
@@ -17,4 +22,8 @@ var (
 
 func KeyPrefix(p string) []byte {
 	return []byte(p)
+}
+
+func GetHandleKey(handle string) []byte {
+	return []byte(fmt.Sprintf("%s%s", HandleKeyPrefix, handle))
 }
