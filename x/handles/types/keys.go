@@ -28,6 +28,7 @@ func KeyPrefix(p string) []byte {
 }
 
 func GetHandleKey(handle string) []byte {
+	// make handle lowercase
 	handle = strings.ToLower(handle)
 
 	return []byte(fmt.Sprintf("%s%s", HandleKeyPrefix, handle))
