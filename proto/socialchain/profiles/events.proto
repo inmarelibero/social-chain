@@ -1,0 +1,14 @@
+syntax = "proto3";
+package socialchain.profiles;
+
+import "cosmos_proto/cosmos.proto";
+import "cosmos/group/v1/types.proto";
+
+option go_package = "socialchain/x/profiles/types";
+
+// EventCreateProfile is emitted when a Handle is created
+message EventCreateProfile {
+  uint64 id = 1;
+  string owner = 2;
+  string handle = 3;
+}

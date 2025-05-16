@@ -5,7 +5,7 @@ option go_package = "socialchain/x/posts/types";
 
 message Post {
   uint64 id = 1;
-  uint64 handleId = 2;
+  uint64 profileId = 2;
   string timestamp = 3;
   string body = 4;
 }

@@ -1,0 +1,10 @@
+syntax = "proto3";
+package socialchain.profiles;
+
+option go_package = "socialchain/x/profiles/types";
+
+message Profile {
+  uint64 id = 1;
+  string owner = 2;
+  string handle = 3;
+}

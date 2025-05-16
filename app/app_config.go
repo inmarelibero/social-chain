@@ -53,13 +53,13 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	handlesmodulev1 "socialchain/api/socialchain/handles/module"
 	postsmodulev1 "socialchain/api/socialchain/posts/module"
+	profilesmodulev1 "socialchain/api/socialchain/profiles/module"
 	socialchainmodulev1 "socialchain/api/socialchain/socialchain/module"
-	_ "socialchain/x/handles/module" // import for side-effects
-	handlesmoduletypes "socialchain/x/handles/types"
 	_ "socialchain/x/posts/module" // import for side-effects
 	postsmoduletypes "socialchain/x/posts/types"
+	_ "socialchain/x/profiles/module" // import for side-effects
+	profilesmoduletypes "socialchain/x/profiles/types"
 	_ "socialchain/x/socialchain/module" // import for side-effects
 	socialchainmoduletypes "socialchain/x/socialchain/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
@@ -101,7 +101,7 @@ var (
 		// chain modules
 		socialchainmoduletypes.ModuleName,
 		postsmoduletypes.ModuleName,
-		handlesmoduletypes.ModuleName,
+		profilesmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -128,7 +128,7 @@ var (
 		// chain modules
 		socialchainmoduletypes.ModuleName,
 		postsmoduletypes.ModuleName,
-		handlesmoduletypes.ModuleName,
+		profilesmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -149,7 +149,7 @@ var (
 		// chain modules
 		socialchainmoduletypes.ModuleName,
 		postsmoduletypes.ModuleName,
-		handlesmoduletypes.ModuleName,
+		profilesmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -314,8 +314,8 @@ var (
 				Config: appconfig.WrapAny(&postsmodulev1.Module{}),
 			},
 			{
-				Name:   handlesmoduletypes.ModuleName,
-				Config: appconfig.WrapAny(&handlesmodulev1.Module{}),
+				Name:   profilesmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&profilesmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

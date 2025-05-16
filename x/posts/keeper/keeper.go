@@ -8,8 +8,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	handleskeeper "socialchain/x/handles/keeper"
 	"socialchain/x/posts/types"
+	profileskeeper "socialchain/x/profiles/keeper"
 )
 
 type (
@@ -22,7 +22,7 @@ type (
 		// should be the x/gov module account.
 		authority string
 
-		handlesKeeper handleskeeper.Keeper
+		profilesKeeper profileskeeper.Keeper
 	}
 )
 
@@ -31,18 +31,18 @@ func NewKeeper(
 	storeService store.KVStoreService,
 	logger log.Logger,
 	authority string,
-	hKeeper handleskeeper.Keeper,
+	hKeeper profileskeeper.Keeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
 	return Keeper{
-		cdc:           cdc,
-		storeService:  storeService,
-		authority:     authority,
-		logger:        logger,
-		handlesKeeper: hKeeper,
+		cdc:            cdc,
+		storeService:   storeService,
+		authority:      authority,
+		logger:         logger,
+		profilesKeeper: hKeeper,
 	}
 }
 

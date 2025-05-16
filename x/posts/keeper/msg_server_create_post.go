@@ -22,14 +22,14 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 	// Get current time
 	timestamp := ctx.BlockTime().Format(time.RFC3339)
 
-	handle, found := k.handlesKeeper.GetHandleByOwner(ctx, sender.String())
+	profile, found := k.profilesKeeper.GetProfileByOwner(ctx, sender.String())
 
 	if !found {
 		return nil, errors.New("handle not found for caller")
 	}
 
 	post := types.Post{
-		HandleId:  handle.Id,
+		ProfileId: profile.Id,
 		Body:      msg.Body,
 		Timestamp: timestamp,
 	}

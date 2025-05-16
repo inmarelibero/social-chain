@@ -1,4 +1,4 @@
-package posts
+package profiles
 
 import (
 	"context"
@@ -20,11 +20,9 @@ import (
 
 	// this line is used by starport scaffolding # 1
 
-	modulev1 "socialchain/api/socialchain/posts/module"
-	"socialchain/x/posts/keeper"
-	"socialchain/x/posts/types"
-
-	profileskeeper "socialchain/x/profiles/keeper"
+	modulev1 "socialchain/api/socialchain/profiles/module"
+	"socialchain/x/profiles/keeper"
+	"socialchain/x/profiles/types"
 )
 
 var (
@@ -182,16 +180,15 @@ type ModuleInputs struct {
 	Config       *modulev1.Module
 	Logger       log.Logger
 
-	AccountKeeper  types.AccountKeeper
-	BankKeeper     types.BankKeeper
-	ProfilesKeeper profileskeeper.Keeper
+	AccountKeeper types.AccountKeeper
+	BankKeeper    types.BankKeeper
 }
 
 type ModuleOutputs struct {
 	depinject.Out
 
-	PostsKeeper keeper.Keeper
-	Module      appmodule.AppModule
+	ProfilesKeeper keeper.Keeper
+	Module         appmodule.AppModule
 }
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
@@ -205,7 +202,6 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.StoreService,
 		in.Logger,
 		authority.String(),
-		in.ProfilesKeeper,
 	)
 	m := NewAppModule(
 		in.Cdc,
@@ -214,5 +210,5 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.BankKeeper,
 	)
 
-	return ModuleOutputs{PostsKeeper: k, Module: m}
+	return ModuleOutputs{ProfilesKeeper: k, Module: m}
 }
