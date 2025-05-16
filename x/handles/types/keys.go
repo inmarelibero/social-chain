@@ -21,6 +21,9 @@ const (
 
 	// key to store handles (as string) by their id
 	HandlesById = "Handle/id_index/"
+
+	// key to store handles (as string) by their owner
+	HandlesByOwner = "Handle/owner_index/"
 )
 
 var (
@@ -40,4 +43,8 @@ func GetHandleKey(handle string) []byte {
 
 func GetHandlesByIdKey(id uint64) []byte {
 	return []byte(fmt.Sprintf("%s%d", HandlesById, id))
+}
+
+func GetHandlesByOwnerKey(owner string) []byte {
+	return []byte(fmt.Sprintf("%s%s", HandlesByOwner, owner))
 }

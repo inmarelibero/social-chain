@@ -23,6 +23,8 @@ import (
 	modulev1 "socialchain/api/socialchain/posts/module"
 	"socialchain/x/posts/keeper"
 	"socialchain/x/posts/types"
+
+	handleskeeper "socialchain/x/handles/keeper"
 )
 
 var (
@@ -182,6 +184,7 @@ type ModuleInputs struct {
 
 	AccountKeeper types.AccountKeeper
 	BankKeeper    types.BankKeeper
+	HandlesKeeper handleskeeper.Keeper
 }
 
 type ModuleOutputs struct {
@@ -202,6 +205,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.StoreService,
 		in.Logger,
 		authority.String(),
+		in.HandlesKeeper,
 	)
 	m := NewAppModule(
 		in.Cdc,

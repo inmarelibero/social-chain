@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"socialchain/x/posts/types"
@@ -21,8 +22,14 @@ func (k msgServer) CreatePost(goCtx context.Context, msg *types.MsgCreatePost) (
 	// Get current time
 	timestamp := ctx.BlockTime().Format(time.RFC3339)
 
+	handle, found := k.handlesKeeper.GetHandleByOwner(ctx, sender.String())
+
+	if !found {
+		return nil, errors.New("handle not found for caller")
+	}
+
 	post := types.Post{
-		Creator:   sender.String(),
+		HandleId:  handle.Id,
 		Body:      msg.Body,
 		Timestamp: timestamp,
 	}

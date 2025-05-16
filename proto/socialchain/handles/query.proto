@@ -16,8 +16,12 @@ service Query {
     option (google.api.http).get = "/socialchain/handles/params";
   }
 
-  rpc OwnerOf(QueryHandleOwnerRequest) returns (QueryHandleOwnerResponse) {
+  rpc OwnerOf(QueryOwnerOfRequest) returns (QueryOwnerOfResponse) {
     option (google.api.http).get = "/socialchain/handles/owner_of/{handle}";
+  }
+
+  rpc OwnedBy(QueryOwnedByRequest) returns (QueryOwnedByResponse) {
+    option (google.api.http).get = "/socialchain/handles/owned_by/{owner}";
   }
 }
 
@@ -34,13 +38,25 @@ message QueryParamsResponse {
 }
 
 // Request type for getting the owner of a handle
-message QueryHandleOwnerRequest {
+message QueryOwnerOfRequest {
   string handle = 1;
 }
 
 // Response type
-message QueryHandleOwnerResponse {
+message QueryOwnerOfResponse {
   string id = 1;
+  string handle = 2;
+  string owner = 3;
+}
+
+// Request type for getting the handle of an owner
+message QueryOwnedByRequest {
+  string owner = 1;
+}
+
+// Response type
+message QueryOwnedByResponse {
+  uint64 id = 1;
   string handle = 2;
   string owner = 3;
 }

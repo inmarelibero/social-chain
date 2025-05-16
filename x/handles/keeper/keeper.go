@@ -43,21 +43,21 @@ func NewKeeper(
 }
 
 // GetAuthority returns the module's authority.
-func (k Keeper) GetAuthority() string {
-	return k.authority
+func (hk Keeper) GetAuthority() string {
+	return hk.authority
 }
 
 // Logger returns a module-specific logger.
-func (k Keeper) Logger() log.Logger {
-	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
+func (hk Keeper) Logger() log.Logger {
+	return hk.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
 // GetHandleByHandle
-func (k Keeper) GetHandleByHandle(ctx sdk.Context, handle string) (val types.Handle, found bool) {
-	store := k.storeService.OpenKVStore(ctx)
+func (hk Keeper) GetHandleByHandle(ctx sdk.Context, handle string) (val types.Handle, found bool) {
+	store := hk.storeService.OpenKVStore(ctx)
 
-	postKey := types.GetHandleKey(handle)
-	bz, err := store.Get(postKey)
+	key := types.GetHandleKey(handle)
+	bz, err := store.Get(key)
 
 	if bz == nil {
 		return val, false
@@ -67,14 +67,34 @@ func (k Keeper) GetHandleByHandle(ctx sdk.Context, handle string) (val types.Han
 		panic(err)
 	}
 
-	k.cdc.MustUnmarshal(bz, &val)
+	hk.cdc.MustUnmarshal(bz, &val)
 
 	return val, true
 }
 
+// GetHandleByOwner
+func (hk Keeper) GetHandleByOwner(ctx sdk.Context, owner string) (val types.Handle, found bool) {
+	store := hk.storeService.OpenKVStore(ctx)
+
+	key := types.GetHandlesByOwnerKey(owner)
+	bz, err := store.Get(key)
+
+	if bz == nil {
+		return val, false
+	}
+
+	if err != nil {
+		panic(err)
+	}
+
+	handleString := string(bz)
+
+	return hk.GetHandleByHandle(ctx, handleString)
+}
+
 // GetHandlesCount retrieves the current handles count
-func (k Keeper) GetHandlesCount(ctx sdk.Context) uint64 {
-	store := k.storeService.OpenKVStore(ctx)
+func (hk Keeper) GetHandlesCount(ctx sdk.Context) uint64 {
+	store := hk.storeService.OpenKVStore(ctx)
 	bz, err := store.Get(types.KeyPrefix(types.HandlesCountKey))
 
 	if err != nil {
@@ -89,8 +109,8 @@ func (k Keeper) GetHandlesCount(ctx sdk.Context) uint64 {
 }
 
 // HasHandle
-func (k Keeper) HasHandle(ctx sdk.Context, handle string) bool {
-	store := k.storeService.OpenKVStore(ctx)
+func (hk Keeper) HasHandle(ctx sdk.Context, handle string) bool {
+	store := hk.storeService.OpenKVStore(ctx)
 
 	handleKey := types.GetHandleKey(handle)
 
@@ -104,9 +124,9 @@ func (k Keeper) HasHandle(ctx sdk.Context, handle string) bool {
 }
 
 // IncrementHandlesCount increments the posthandlest by 1
-func (k Keeper) IncrementHandlesCount(ctx sdk.Context) {
-	store := k.storeService.OpenKVStore(ctx)
-	count := k.GetHandlesCount(ctx)
+func (hk Keeper) IncrementHandlesCount(ctx sdk.Context) {
+	store := hk.storeService.OpenKVStore(ctx)
+	count := hk.GetHandlesCount(ctx)
 
 	bz := make([]byte, 8)
 	bz[0] = byte(count + 1)
@@ -119,15 +139,15 @@ func (k Keeper) IncrementHandlesCount(ctx sdk.Context) {
 }
 
 // SetHandle
-func (k Keeper) SetHandle(ctx sdk.Context, handle types.Handle) {
-	store := k.storeService.OpenKVStore(ctx)
+func (hk Keeper) SetHandle(ctx sdk.Context, handle types.Handle) {
+	store := hk.storeService.OpenKVStore(ctx)
 
 	// Generate unique ID for the handle
-	id := k.GetHandlesCount(ctx) + 1
+	id := hk.GetHandlesCount(ctx) + 1
 	handle.Id = id
 
 	//
-	bz, err := k.cdc.Marshal(&handle)
+	bz, err := hk.cdc.Marshal(&handle)
 
 	if err != nil {
 		panic(err)
@@ -140,6 +160,9 @@ func (k Keeper) SetHandle(ctx sdk.Context, handle types.Handle) {
 	// update HandlesById
 	store.Set(types.GetHandlesByIdKey(handle.Id), []byte(handle.Handle))
 
+	// update HandlesByOwner
+	store.Set(types.GetHandlesByOwnerKey(handle.Owner), []byte(handle.Handle))
+
 	// Increment handles count
-	k.IncrementHandlesCount(ctx)
+	hk.IncrementHandlesCount(ctx)
 }

@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Query_Params_FullMethodName  = "/socialchain.handles.Query/Params"
 	Query_OwnerOf_FullMethodName = "/socialchain.handles.Query/OwnerOf"
+	Query_OwnedBy_FullMethodName = "/socialchain.handles.Query/OwnedBy"
 )
 
 // QueryClient is the client API for Query service.
@@ -29,7 +30,8 @@ const (
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
-	OwnerOf(ctx context.Context, in *QueryHandleOwnerRequest, opts ...grpc.CallOption) (*QueryHandleOwnerResponse, error)
+	OwnerOf(ctx context.Context, in *QueryOwnerOfRequest, opts ...grpc.CallOption) (*QueryOwnerOfResponse, error)
+	OwnedBy(ctx context.Context, in *QueryOwnedByRequest, opts ...grpc.CallOption) (*QueryOwnedByResponse, error)
 }
 
 type queryClient struct {
@@ -49,9 +51,18 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
-func (c *queryClient) OwnerOf(ctx context.Context, in *QueryHandleOwnerRequest, opts ...grpc.CallOption) (*QueryHandleOwnerResponse, error) {
-	out := new(QueryHandleOwnerResponse)
+func (c *queryClient) OwnerOf(ctx context.Context, in *QueryOwnerOfRequest, opts ...grpc.CallOption) (*QueryOwnerOfResponse, error) {
+	out := new(QueryOwnerOfResponse)
 	err := c.cc.Invoke(ctx, Query_OwnerOf_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) OwnedBy(ctx context.Context, in *QueryOwnedByRequest, opts ...grpc.CallOption) (*QueryOwnedByResponse, error) {
+	out := new(QueryOwnedByResponse)
+	err := c.cc.Invoke(ctx, Query_OwnedBy_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +75,8 @@ func (c *queryClient) OwnerOf(ctx context.Context, in *QueryHandleOwnerRequest, 
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
-	OwnerOf(context.Context, *QueryHandleOwnerRequest) (*QueryHandleOwnerResponse, error)
+	OwnerOf(context.Context, *QueryOwnerOfRequest) (*QueryOwnerOfResponse, error)
+	OwnedBy(context.Context, *QueryOwnedByRequest) (*QueryOwnedByResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -75,8 +87,11 @@ type UnimplementedQueryServer struct {
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
 }
-func (UnimplementedQueryServer) OwnerOf(context.Context, *QueryHandleOwnerRequest) (*QueryHandleOwnerResponse, error) {
+func (UnimplementedQueryServer) OwnerOf(context.Context, *QueryOwnerOfRequest) (*QueryOwnerOfResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OwnerOf not implemented")
+}
+func (UnimplementedQueryServer) OwnedBy(context.Context, *QueryOwnedByRequest) (*QueryOwnedByResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OwnedBy not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -110,7 +125,7 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Query_OwnerOf_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryHandleOwnerRequest)
+	in := new(QueryOwnerOfRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -122,7 +137,25 @@ func _Query_OwnerOf_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: Query_OwnerOf_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).OwnerOf(ctx, req.(*QueryHandleOwnerRequest))
+		return srv.(QueryServer).OwnerOf(ctx, req.(*QueryOwnerOfRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_OwnedBy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryOwnedByRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).OwnedBy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_OwnedBy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).OwnedBy(ctx, req.(*QueryOwnedByRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -141,6 +174,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "OwnerOf",
 			Handler:    _Query_OwnerOf_Handler,
+		},
+		{
+			MethodName: "OwnedBy",
+			Handler:    _Query_OwnedBy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

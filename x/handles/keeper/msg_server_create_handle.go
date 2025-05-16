@@ -18,6 +18,13 @@ func (k msgServer) CreateHandle(goCtx context.Context, msg *types.MsgCreateHandl
 		return nil, errors.New("handle already taken")
 	}
 
+	// Check if the caller already owns a handle
+	_, found := k.GetHandleByOwner(ctx, msg.Creator)
+
+	if found {
+		return nil, errors.New("caller already owns a handle")
+	}
+
 	// Create the handle
 	handle := types.Handle{
 		Owner:  msg.Creator,
@@ -26,6 +33,13 @@ func (k msgServer) CreateHandle(goCtx context.Context, msg *types.MsgCreateHandl
 
 	// Store the handle
 	k.SetHandle(ctx, handle)
+
+	// emit event
+	ctx.EventManager().EmitTypedEvent(&types.EventCreateHandle{
+		Id:     handle.Id,
+		Handle: handle.Handle,
+		Owner:  handle.Owner,
+	})
 
 	return &types.MsgCreateHandleResponse{}, nil
 }
