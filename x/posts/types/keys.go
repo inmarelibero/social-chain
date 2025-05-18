@@ -13,8 +13,8 @@ const (
 	MemStoreKey = "mem_posts"
 
 	// Key prefixes
-	PostKeyPrefix      = "Post/value/"
-	PostCountKeyPrefix = "Post/count/"
+	PostKeyPrefix = "Post/value/"
+	PostsCountKey = "Post/count"
 )
 
 var (

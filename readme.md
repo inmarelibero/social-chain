@@ -38,7 +38,8 @@ Blockchain is running
 ## Development
 
 1) Project scaffolded (run `ignite scaffold chain socialchain`)
-2) Added ability to Post contents and retrieve the number of Posts, [Issue #1](https://github.com/inmarelibero/social-chain/issues/1)
+2) Added ability to Post contents and retrieve the number of Posts
+3) Implemented Profiles, and now Posts are tied to Profiles and not to accounts directly
 
 ## Commands
 
@@ -55,7 +56,42 @@ You should see all available accounts ready to be used in development, eg:
   type: local
 ```
 
-**2) Create a Post**
+**2) Create a Profile**
+
+
+Run
+
+    <app_binary> tx profiles create-profile "inmarelibero" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes    
+
+to create a Profile, necessary in order to Post
+
+**3) Verify the owner of a handle**
+
+Run
+
+    <app_binary> query profiles owner-of --handle  "inmarelibero"
+
+to get the info about the owner of the handle `inmarelibero`:
+
+    handle: inmarelibero
+    id: "1"
+    owner: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
+
+**4) Get the Profile owned by an account**
+
+Run
+
+    <app_binary> query profiles owned-by --owner "cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna"
+
+to get the Profile (if any) owned by a given account:
+
+    handle: inmarelibero
+    id: "1"
+    owner: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
+    
+**5) Create a Post**
+
+The `--from` account must have alreay created a Profile, otherwise creating a Post will fail because there's not a Profile attached to the sender.
 
 Run
 
@@ -63,13 +99,13 @@ Run
     
 to create a Post (use proper `--from` with `<app_binary> keys list`)
 
-**3) Retrieve the Posts count**
+**6) Retrieve the Posts count**
 
 Run
 
     <app_binary> query posts post-count
 
-**4) Retrieve the latest Posts**
+**7) Retrieve the latest Posts**
 
 Run
 
@@ -86,4 +122,3 @@ It should return something like:
       creator: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
       id: "1"
       timestamp: "2025-05-13T14:23:12Z"
-

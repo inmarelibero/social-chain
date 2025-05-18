@@ -9,6 +9,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"socialchain/x/posts/types"
+	profileskeeper "socialchain/x/profiles/keeper"
 )
 
 type (
@@ -20,6 +21,8 @@ type (
 		// the address capable of executing a MsgUpdateParams message. Typically, this
 		// should be the x/gov module account.
 		authority string
+
+		profilesKeeper profileskeeper.Keeper
 	}
 )
 
@@ -28,17 +31,18 @@ func NewKeeper(
 	storeService store.KVStoreService,
 	logger log.Logger,
 	authority string,
-
+	hKeeper profileskeeper.Keeper,
 ) Keeper {
 	if _, err := sdk.AccAddressFromBech32(authority); err != nil {
 		panic(fmt.Sprintf("invalid authority address: %s", authority))
 	}
 
 	return Keeper{
-		cdc:          cdc,
-		storeService: storeService,
-		authority:    authority,
-		logger:       logger,
+		cdc:            cdc,
+		storeService:   storeService,
+		authority:      authority,
+		logger:         logger,
+		profilesKeeper: hKeeper,
 	}
 }
 
@@ -55,7 +59,7 @@ func (k Keeper) Logger() log.Logger {
 // GetPostCount retrieves the current post count
 func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
 	store := k.storeService.OpenKVStore(ctx)
-	bz, err := store.Get(types.KeyPrefix(types.PostCountKeyPrefix))
+	bz, err := store.Get(types.KeyPrefix(types.PostsCountKey))
 
 	if err != nil {
 		panic(err)
@@ -89,16 +93,18 @@ func (k Keeper) SetPost(ctx sdk.Context, post types.Post) {
 	store.Set(postKey, bz)
 
 	// Update post count
-	k.SetPostCount(ctx, id)
+	k.IncrementPostCount(ctx)
 }
 
-// SetPostCount
-func (k Keeper) SetPostCount(ctx sdk.Context, count uint64) {
+// IncrementPostCount
+func (k Keeper) IncrementPostCount(ctx sdk.Context) {
 	store := k.storeService.OpenKVStore(ctx)
-	bz := make([]byte, 8)
-	bz[0] = byte(count)
+	count := k.GetPostCount(ctx)
 
-	err := store.Set(types.KeyPrefix(types.PostCountKeyPrefix), bz)
+	bz := make([]byte, 8)
+	bz[0] = byte(count + 1)
+
+	err := store.Set(types.KeyPrefix(types.PostsCountKey), bz)
 
 	if err != nil {
 		panic(err)
