@@ -38,7 +38,8 @@ Blockchain is running
 ## Development
 
 1) Project scaffolded (run `ignite scaffold chain socialchain`)
-2) Added ability to Post contents and retrieve the number of Posts, [Issue #1](https://github.com/inmarelibero/social-chain/issues/1)
+2) Added ability to Post contents and retrieve the number of Posts
+3) Implemented Profiles, and now Posts are tied to Profiles and not to accounts directly
 
 ## Commands
 
