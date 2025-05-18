@@ -3,11 +3,7 @@ package socialchain.posts;
 
 option go_package = "socialchain/x/posts/types";
 
-// Profile defines a user profile
-message Profile {
-  uint64 id = 1;
-  string name = 2;
-}
+import "socialchain/profiles/profile.proto";
 
 message Post {
   uint64 id = 1;
@@ -16,9 +12,15 @@ message Post {
   string body = 4;
 }
 
-message PostWithProfile {
+//
+message PostInQuery {
   uint64 id = 1;
-  Profile profile = 2;
+  ProfileForPostInQuery profile = 2;
   string timestamp = 3;
   string body = 4;
+}
+
+message ProfileForPostInQuery {
+  uint64 id = 1;
+  string handle = 2;
 }

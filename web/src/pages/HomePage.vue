@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { StargateClient } from '@cosmjs/stargate';
+
 import { Post } from '../models/Post';
 import { PostsManager } from '../services/PostsManager';
-
-
 
 const posts = ref<Post[]>([]);
 
@@ -12,7 +10,9 @@ onMounted(async () => {
   loadPosts()
 });
 
-
+/**
+ * 
+ */
 function loadPosts() {
   PostsManager.fetchLatestPosts({limit: 10})
   .then((result: Post[]) => {
@@ -21,8 +21,6 @@ function loadPosts() {
 }
 
 </script>
-
-
 
 <style scoped lang="scss">
 @import 'vuetify/_settings.scss';
@@ -50,9 +48,17 @@ function loadPosts() {
       <v-col>
         <h1>Latest Posts</h1>
           <div v-for="post in posts" :key="post.id" class="post">
-            <h2>{{ post.body }}</h2>
             <p>
-              {{ post.timestamp }}
+              <b>
+                @{{ post.profile.handle }}
+              </b>
+              -
+              <span>
+                {{ post.timestamp }}
+              </span>
+            </p>
+            <p>
+              {{ post.body }}
             </p>
           </div>
       </v-col>

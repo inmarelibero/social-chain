@@ -17,7 +17,7 @@ export class PostsManager {
                 params: { limit }
             }).then((response) => {
                 const posts = response.data.posts.map((result: any) => {
-                    return new Post(result);
+                    return new Post(result.id, result.body, result.profile, result.timestamp);
                 })
 
                 console.log('posts', posts)

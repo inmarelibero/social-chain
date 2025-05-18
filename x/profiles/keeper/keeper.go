@@ -53,7 +53,6 @@ func (k Keeper) Logger() log.Logger {
 }
 
 // GetProfileByHandle
-
 func (k Keeper) GetProfileByHandle(ctx sdk.Context, handle string) (val types.Profile, found bool) {
 	store := k.storeService.OpenKVStore(ctx)
 
@@ -71,6 +70,26 @@ func (k Keeper) GetProfileByHandle(ctx sdk.Context, handle string) (val types.Pr
 	k.cdc.MustUnmarshal(bz, &val)
 
 	return val, true
+}
+
+// GetProfileById
+func (k Keeper) GetProfileById(ctx sdk.Context, id uint64) (val types.Profile, found bool) {
+	store := k.storeService.OpenKVStore(ctx)
+
+	key := types.GetProfilesByIdKey(id)
+	bz, err := store.Get(key)
+
+	if bz == nil {
+		return val, false
+	}
+
+	if err != nil {
+		panic(err)
+	}
+
+	handle := string(bz)
+
+	return k.GetProfileByHandle(ctx, handle)
 }
 
 // GetProfileByOwner
