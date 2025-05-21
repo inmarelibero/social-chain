@@ -35,11 +35,21 @@ Blockchain is running
 `App binary` is the executable and will be referenced with `<app_binary>` in this readme.
 
 
-## Development
+## Development roadmap
 
 1) Project scaffolded (run `ignite scaffold chain socialchain`)
 2) Added ability to Post contents and retrieve the number of Posts
 3) Implemented Profiles, and now Posts are tied to Profiles and not to accounts directly
+4) Implemented a simple frontend to show latest Posts
+
+## Boostrap
+
+Run `ignite chain serve` to start the local blockchain.
+
+To setup and run local webserver serving the frontend, follow these steps:
+- `cd web/`
+- `pnpm i`
+- `pnpm run dev`
 
 ## Commands
 
