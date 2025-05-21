@@ -50,5 +50,5 @@ message QueryLatestPostsRequest {
 
 // Response for latest posts
 message QueryLatestPostsResponse {
-  repeated Post posts = 1;
+  repeated PostInQuery posts = 1;
 }

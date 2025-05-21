@@ -1,0 +1,33 @@
+{
+  "name": "SocialChain",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "build-simple": "vite build",
+    "lint": "biome check .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@cosmjs/cosmwasm-stargate": "^0.33.1",
+    "@cosmjs/stargate": "^0.33.1",
+    "@tanstack/vue-query": ">=5.45.0",
+    "axios": "^1.9.0",
+    "mitt": "^3.0.1",
+    "sass": "^1.85.1",
+    "sass-loader": "^16.0.5",
+    "truncate-middle": "^2.0.0",
+    "vue": ">=3.4.21",
+    "vue-router": "4",
+    "vuetify": "^3.7.15"
+  },
+  "devDependencies": {
+    "@mdi/font": "^7.4.47",
+    "@vitejs/plugin-vue": "^5.0.4",
+    "buffer": "^6.0.3",
+    "vite": "^5.2.11",
+    "vue-tsc": "^2.0.6"
+  }
+}
