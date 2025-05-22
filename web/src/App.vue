@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
+// import { useRoute } from 'vue-router'
+import { OfflineSigner } from "@cosmjs/proto-signing";
+
 import Navbar from '@/components/Navbar.vue'
-import { useRoute } from 'vue-router'
+import { KeplrManager } from '@/services/KeplrManager'
 
-import { watch } from 'vue'
+// const route = useRoute()
 
-const route = useRoute()
+onMounted(() => {
+  KeplrManager.login()
+})
 </script>
 
 <template>

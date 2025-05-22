@@ -51,6 +51,11 @@ To setup and run local webserver serving the frontend, follow these steps:
 - `pnpm i`
 - `pnpm run dev`
 
+Connecting with Keplr requires a working https website.
+Follow these steps to setup a local https dev server:
+- `mkcert -install` this will install `localhost` certificates
+- `pnpm run dev`
+
 ## Commands
 
 **1) List all public keys stored locally**

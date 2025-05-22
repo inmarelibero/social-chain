@@ -9,7 +9,7 @@ export class PostsManager {
      */
     static async fetchLatestPosts({ limit }): Promise<Post[]> {
         return new Promise(async (resolve, reject) => {         
-            const restUrl = 'http://0.0.0.0:1317'; // Replace with your REST server URL
+            const restUrl = '/api'; // Replace with your REST server URL
             const endpoint = '/socialchain/posts/latests'; // Replace with your module's endpoint
 
             // Call the LatestPosts query

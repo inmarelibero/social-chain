@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+
+import Login from '@/components/Login.vue'
 
 const drawer = ref(false);
 
@@ -8,7 +9,6 @@ const drawer = ref(false);
 
 <template>
     <v-app-bar
-        v-if="$route.name !== 'home'"
         class="main-navbar"
         :floating="true"
     >
@@ -29,6 +29,8 @@ const drawer = ref(false);
             </div>
 
             <v-spacer class="d-none d-sm-inline-block" />
+
+            <Login />
         </v-container>
     </v-app-bar>
 
