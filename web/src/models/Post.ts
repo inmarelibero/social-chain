@@ -1,4 +1,4 @@
-import { Profile } from "./Profile";
+import { Profile } from "@/models/Profile";
 
 export class Post {
     public readonly id: number;

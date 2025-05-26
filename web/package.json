@@ -11,8 +11,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.5.0",
     "@cosmjs/cosmwasm-stargate": "^0.33.1",
     "@cosmjs/stargate": "^0.33.1",
+    "@cosmology/telescope": "^1.12.12",
     "@tanstack/vue-query": ">=5.45.0",
     "axios": "^1.9.0",
     "mitt": "^3.0.1",
@@ -21,6 +23,7 @@
     "sass-loader": "^16.0.5",
     "truncate-middle": "^2.0.0",
     "vue": ">=3.4.21",
+    "vue-loading-overlay": "^6.0.6",
     "vue-router": "4",
     "vuetify": "^3.7.15"
   },

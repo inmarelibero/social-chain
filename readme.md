@@ -2,65 +2,70 @@
 
 **socialchain** is an open source project I'm using to learn Cosmos SDk and Go.
 
-The purpose is to build an L1 blockchain with the features of a social network, like:
-- post
-- like
+The purpose is to build an L1 blockchain with the features of a social network:
+- profiles
+- posts
+- likes
 
-It's built using Cosmos SDK and Tendermint, and created with Ignite.
+Tech stack: Cosmos SDK Tendermint, Ignite, Vue3, Vite, Vuetify.
 
 ## Prerequisites
 
 - `go: 1.24.3`
 
-## Get started
-
-Run `ignite chain serve` to installs dependencies, builds, initializes, and starts your blockchain locally.
-
-If everything went correctly, you should see something like this:
-
-```
-Blockchain is running
-
-👤 alice's account address: cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna
-👤 bob's account address: cosmos1dshpd7s2750u4szsu4lm2ey6mzxhn2n7yzl86t
-
-🌍 Tendermint node: http://0.0.0.0:26657
-🌍 Blockchain API: http://0.0.0.0:1317
-🌍 Token faucet: http://0.0.0.0:4500
-
-⋆ Data directory: <home directory>/.socialchain
-⋆ App binary: <home directory>/go/bin/socialchaind
-```
-
-`App binary` is the executable and will be referenced with `<app_binary>` in this readme.
-
-
 ## Development roadmap
 
-1) Project scaffolded (run `ignite scaffold chain socialchain`)
+1) Project scaffolded (with `ignite scaffold chain socialchain`)
 2) Added ability to Post contents and retrieve the number of Posts
 3) Implemented Profiles, and now Posts are tied to Profiles and not to accounts directly
 4) Implemented a simple frontend to show latest Posts
+5) Added the possibility to create a Profile from frontend
 
-## Boostrap
+## Get started
 
-Run `ignite chain serve` to start the local blockchain.
+Be sure to check the [Prerequisites](#Prerequisites) section before continuing.
 
-To setup and run local webserver serving the frontend, follow these steps:
+### 1) run local blockchain node
+
+There are usefult 3 bash scripts involved when running a local node:
+    - `bin/build.sh` compiles the source code of the project into a binary and installs the binary into `bin/socialchaind`, necessary to execute once before the other scripts
+    - `bin/bootstrap.sh` starts a node from scratch, erasing previous blockchain state and starting from genesis
+    - `bin/start.sh` starts a node by resuming the previous blockchain state
+
+Note: the folder `[project]/.data` is used as temporary folder to store the blockchain data.
+
+### 2) run local frontend
+
+Start the local webserver serving the frontend, by running:
+- `cd web/`
+- `pnpm run dev`
+
+## Prerequisites
+
+### Install frontend dependencies
+
+Install frontend dependencies with:
 - `cd web/`
 - `pnpm i`
-- `pnpm run dev`
+
+### Setup https for local frontend
 
 Connecting with Keplr requires a working https website.
+
 Follow these steps to setup a local https dev server:
 - `mkcert -install` this will install `localhost` certificates
-- `pnpm run dev`
+
+
+
+### Generate js classes from proto messages
+
+Run `buf generate --template proto/buf.gen.ts.yaml --output web/src/generated-proto` to generate js classes from proto messages.
 
 ## Commands
 
 **1) List all public keys stored locally**
 
-    <app_binary> keys list
+    bin/socialchaind keys list
 
 You should see all available accounts ready to be used in development, eg:
 
@@ -76,7 +81,7 @@ You should see all available accounts ready to be used in development, eg:
 
 Run
 
-    <app_binary> tx profiles create-profile "inmarelibero" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes    
+    bin/socialchaind tx profiles create-profile "inmarelibero" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes    
 
 to create a Profile, necessary in order to Post
 
@@ -84,7 +89,7 @@ to create a Profile, necessary in order to Post
 
 Run
 
-    <app_binary> query profiles owner-of --handle  "inmarelibero"
+    bin/socialchaind query profiles owner-of --handle  "inmarelibero"
 
 to get the info about the owner of the handle `inmarelibero`:
 
@@ -96,7 +101,7 @@ to get the info about the owner of the handle `inmarelibero`:
 
 Run
 
-    <app_binary> query profiles owned-by --owner "cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna"
+    bin/socialchaind query profiles owned-by --owner "cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna"
 
 to get the Profile (if any) owned by a given account:
 
@@ -110,21 +115,21 @@ The `--from` account must have alreay created a Profile, otherwise creating a Po
 
 Run
 
-    <app_binary> tx posts create-post "Hello, world\!" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes
+    bin/socialchaind tx posts create-post "Hello, world\!" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes
     
-to create a Post (use proper `--from` with `<app_binary> keys list`)
+to create a Post (use proper `--from` with `bin/socialchaind keys list`)
 
 **6) Retrieve the Posts count**
 
 Run
 
-    <app_binary> query posts post-count
+    bin/socialchaind query posts post-count
 
 **7) Retrieve the latest Posts**
 
 Run
 
-    <app_binary> query posts latest-posts --limit 2
+    bin/socialchaind query posts latest-posts --limit 2
 
 It should return something like:
 

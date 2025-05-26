@@ -14,7 +14,7 @@ onMounted(async () => {
  * 
  */
 function loadPosts() {
-  PostsManager.fetchLatestPosts({limit: 10})
+  PostsManager.fetchLatestPosts(10)
   .then((result: Post[]) => {
     posts.value = result;
   })

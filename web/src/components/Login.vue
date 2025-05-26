@@ -16,10 +16,13 @@ const address = computed(() => userStore.address)
       <v-btn @click="KeplrManager.login()">Connect Wallet</v-btn>
     </template>
     <template v-if="isLogged">
+      <v-btn class="link" :to="{ name: 'profile'}" plain>
         {{ StringHelper.truncateMiddle(address, 12, 5) }}
-        <v-btn @click="KeplrManager.logout()" icon >
-            <v-icon icon="mdi-logout" size="x-small" text/>
-          </v-btn>
+      </v-btn>
+
+      <v-btn @click="KeplrManager.logout()" icon >
+        <v-icon icon="mdi-logout" size="x-small" text/>
+      </v-btn>
     </template>
   </div>
 </template>

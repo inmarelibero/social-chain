@@ -1,10 +1,12 @@
-import { SigningStargateClient } from '@cosmjs/stargate';
-import { OfflineSigner } from "@cosmjs/proto-signing";
+import { SigningStargateClient, defaultRegistryTypes as defaultStargateTypes } from '@cosmjs/stargate';
+import { OfflineSigner, GeneratedType, Registry } from "@cosmjs/proto-signing";
 import { useUserStore } from '@/stores/userStore'
+import { UserApiManager } from "@/services/UserApiManager";
+import { MsgCreateProfile } from "@/generated-proto/socialchain/profiles/tx.ts";
 
 export class KeplrManager {
     static CHAIN_INFO = {
-        chainId: 'social-chain-id',
+        chainId: 'socialchain',
         chainName: 'Social Chain',
         rpc: 'https://localhost:5173/rpc',
         rest: 'https://localhost:5173/api',
@@ -12,26 +14,26 @@ export class KeplrManager {
             coinType: 118,
         },
         bech32Config: {
-            bech32PrefixAccAddr: 'social',
-            bech32PrefixAccPub: 'socialpub',
-            bech32PrefixValAddr: 'socialvaloper',
-            bech32PrefixValPub: 'socialvaloperpub',
-            bech32PrefixConsAddr: 'socialvalcons',
-            bech32PrefixConsPub: 'socialvalconspub',
+            bech32PrefixAccAddr: 'cosmos',
+            bech32PrefixAccPub: 'cosmospub',
+            bech32PrefixValAddr: 'cosmosvaloper',
+            bech32PrefixValPub: 'cosmosvaloperpub',
+            bech32PrefixConsAddr: 'cosmosvalcons',
+            bech32PrefixConsPub: 'cosmosvalconspub',
         },
         currencies: [
             {
-            coinDenom: 'SOC',
-            coinMinimalDenom: 'usoc',
-            coinDecimals: 6,
-            coinGeckoId: 'social-coin', // optional
+                coinDenom: 'SOC',
+                coinMinimalDenom: 'usoc',
+                coinDecimals: 6,
+                coinGeckoId: 'social-coin', // optional
             },
         ],
         feeCurrencies: [
             {
-            coinDenom: 'SOC',
-            coinMinimalDenom: 'usoc',
-            coinDecimals: 6,
+                coinDenom: 'SOC',
+                coinMinimalDenom: 'usoc',
+                coinDecimals: 6,
             },
         ],
         stakeCurrency: {
@@ -51,7 +53,7 @@ export class KeplrManager {
      * 
      * @returns 
      */
-    static async useKeplrWallet() {
+    static async useKeplrWallet(): Promise<{address: string, signer: OfflineSigner, client: SigningStargateClient}> {
         if (!window.keplr) {
             throw new Error('Please install Keplr Extension');
         }
@@ -68,9 +70,18 @@ export class KeplrManager {
         const accounts = await offlineSigner.getAccounts();
         const address = accounts[0].address;
 
+        // create Registry
+        // const registry = new Registry([
+        //     ["/socialchain.profiles.MsgCreateProfile", MsgCreateProfile as unknown as GeneratedType],
+        // ])
+        const myRegistry = new Registry(defaultStargateTypes);
+        myRegistry.register("/socialchain.profiles.MsgCreateProfile", MsgCreateProfile); // Replace with your own type URL and Msg class
+
+        // create client
         const client = await SigningStargateClient.connectWithSigner(
             KeplrManager.CHAIN_INFO.rpc,
-            offlineSigner
+            offlineSigner,
+            { registry: myRegistry }
         );
 
         return {
@@ -88,10 +99,11 @@ export class KeplrManager {
         
         try {
             KeplrManager.useKeplrWallet().then((
-                {signer, address}: {signer: OfflineSigner, address: string}
+                {signer, address, client}: {signer: OfflineSigner, address: string, client: SigningStargateClient}
             ) => {
-                console.log('s', signer, address)
-                userStore.setSigner(signer, address)
+                userStore.setSigner(signer, address, client)
+
+                KeplrManager.fetchAndStoreProfile()
             })
         } catch (err) {
             console.error('Wallet connection failed', err)
@@ -103,6 +115,28 @@ export class KeplrManager {
      */
     static async logout() {
         const userStore = useUserStore()
-        userStore.setSigner(null, null)
+        userStore.setSigner(null, null, null)
+    }
+
+    /**
+     * Fetches the profile of the user and stores it
+     */
+    static async fetchAndStoreProfile(): Promise<void> {
+        const userStore = useUserStore()
+        
+        return new Promise(async (resolve, reject) => {
+            const address = userStore.address
+
+            if (!address) {
+                return resolve();
+            }
+            
+            UserApiManager.fetchProfile(address)
+                .then((profile) => {
+                    userStore.setProfile(profile)
+                    resolve()
+                })
+                
+        })
     }
 }

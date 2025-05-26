@@ -12,6 +12,8 @@ import { createPinia } from 'pinia'
 import App from '@/App.vue'
 import './styles/main.scss'
 
+import 'vue-loading-overlay/dist/css/index.css';
+
 const app = createApp(App)
 const pinia = createPinia()
 
