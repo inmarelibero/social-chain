@@ -53,5 +53,12 @@ export const useUserStore = defineStore('user', {
          * @returns 
          */
         isLogged: (state) => !!state.signer,
+
+        /**
+         * 
+         * @param state 
+         * @returns 
+         */
+        isLoggedWithProfile: (state) => !!state.signer && !!state.profile,
     },
 })

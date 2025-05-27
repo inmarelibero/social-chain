@@ -1,8 +1,9 @@
 import { SigningStargateClient, defaultRegistryTypes as defaultStargateTypes } from '@cosmjs/stargate';
-import { OfflineSigner, GeneratedType, Registry } from "@cosmjs/proto-signing";
+import { OfflineSigner, Registry } from "@cosmjs/proto-signing";
 import { useUserStore } from '@/stores/userStore'
 import { UserApiManager } from "@/services/UserApiManager";
 import { MsgCreateProfile } from "@/generated-proto/socialchain/profiles/tx.ts";
+import { MsgCreatePost } from "@/generated-proto/socialchain/posts/tx.ts";
 
 export class KeplrManager {
     static CHAIN_INFO = {
@@ -71,11 +72,9 @@ export class KeplrManager {
         const address = accounts[0].address;
 
         // create Registry
-        // const registry = new Registry([
-        //     ["/socialchain.profiles.MsgCreateProfile", MsgCreateProfile as unknown as GeneratedType],
-        // ])
         const myRegistry = new Registry(defaultStargateTypes);
-        myRegistry.register("/socialchain.profiles.MsgCreateProfile", MsgCreateProfile); // Replace with your own type URL and Msg class
+        myRegistry.register("/socialchain.profiles.MsgCreateProfile", MsgCreateProfile);
+        myRegistry.register("/socialchain.posts.MsgCreatePost", MsgCreatePost);
 
         // create client
         const client = await SigningStargateClient.connectWithSigner(
@@ -116,6 +115,7 @@ export class KeplrManager {
     static async logout() {
         const userStore = useUserStore()
         userStore.setSigner(null, null, null)
+        userStore.setProfile(null)
     }
 
     /**

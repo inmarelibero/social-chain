@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import ProfileCreatePage from '@/pages/Profile/ProfileCreatePage.vue'
-import ProfilePage from '@/pages/ProfilePage.vue'
-import HomePage from '@/pages/HomePage.vue'
+import ProfilePage from '@/pages/Profile/ProfilePage.vue'
+import HomePage from '@/pages/Home/HomePage.vue'
 
 // Define routes with navigation guards to validate chain names
 const routes = [

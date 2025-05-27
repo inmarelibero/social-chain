@@ -18,7 +18,7 @@ done
 
 # === CREATE PROFILE ===
 echo "👤 Creating profile for validator..."
-TX_HASH=$(bin/socialchaind tx profiles create-profile "inmarelibero" \
+TX_HASH=$(bin/socialchaind tx profiles create-profile "validator" \
   --from "$ADDRESS" \
   --keyring-backend "$KEYRING" \
   --chain-id "$CHAIN_ID" \
