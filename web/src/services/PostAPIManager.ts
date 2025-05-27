@@ -7,7 +7,7 @@ import { MsgCreatePost } from "@/generated-proto/socialchain/posts/tx.ts";
 export class PostAPIManager {
     /**
      * 
-     * @param param0 
+     * @param limit 
      * @returns 
      */
     static async fetchLatestPosts(limit: number = 10): Promise<Post[]> {
