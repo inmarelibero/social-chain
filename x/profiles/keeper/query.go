@@ -37,22 +37,16 @@ func (k Keeper) OwnedBy(goCtx context.Context, req *types.QueryOwnedByRequest) (
 		return nil, errors.New("handle cannot be empty")
 	}
 
-	// // Get the sender's address from the message context
-	// sender, err := sdk.AccAddressFromBech32(req.Owner)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	handle, found := k.GetProfileByOwner(ctx, req.Owner)
+	profile, found := k.GetProfileByOwner(ctx, req.Owner)
 
 	if !found {
-		return nil, errors.New("address does not own any handle")
+		return nil, errors.New("ADDRESS_DOES_NOT_OWN_ANY_HANDLE")
 	}
 
 	return &types.QueryOwnedByResponse{
-		Id:     handle.Id,
-		Handle: handle.Handle,
-		Owner:  string(handle.Owner),
+		Id:     profile.Id,
+		Handle: profile.Handle,
+		Owner:  string(profile.Owner),
 	}, nil
 }

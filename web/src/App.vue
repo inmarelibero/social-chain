@@ -1,10 +1,14 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+
 import Navbar from '@/components/Navbar.vue'
-import { useRoute } from 'vue-router'
+import { KeplrManager } from '@/services/KeplrManager'
 
-import { watch } from 'vue'
+onMounted(() => {
+  KeplrManager.login()
+})
 
-const route = useRoute()
+
 </script>
 
 <template>

@@ -7,3 +7,9 @@ release/
 *.dot
 *.log
 *.ign
+
+# Binary to run a node
+/bin/socialchaind
+
+# Folder containing the blockchain's data directory for one validator
+/.data/
