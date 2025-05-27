@@ -14,7 +14,8 @@ KEY_NAME="socialchain_validator"
 KEYRING="test"
 MNEMONIC="fatigue cash blanket vehicle twelve enter hood reward piano elbow claim spin envelope virus stick elder insect attend rabbit phrase expose intact police local"
 DENOM="usoc"
-AMOUNT="100000000$DENOM"
+GENESIS_AMOUNT="100000000$DENOM"
+GENTX_AMOUNT="50000000$DENOM"
 HOME_DIR="./.data"
 
 # === CLEANUP ===
@@ -42,20 +43,20 @@ mv "$HOME_DIR/config/genesis_temp.json" "$HOME_DIR/config/genesis.json"
 # === FUND VALIDATOR ===
 echo "💰 Funding validator account in genesis..."
 ADDRESS=$(bin/socialchaind keys show "$KEY_NAME" -a --keyring-backend "$KEYRING" --home "$HOME_DIR")
-bin/socialchaind genesis add-genesis-account "$ADDRESS" "$AMOUNT" --home "$HOME_DIR"
+bin/socialchaind genesis add-genesis-account "$ADDRESS" "$GENESIS_AMOUNT" --home "$HOME_DIR"
 
 # === FUND ADDITIONAL ACCOUNTS FROM .env ===
 if [ -n "$FUND_ADDRESSES" ]; then
   IFS=',' read -ra ADDR_ARR <<< "$FUND_ADDRESSES"
   for ADDR in "${ADDR_ARR[@]}"; do
-    echo "💰 Funding address $ADDR with $AMOUNT"
-    bin/socialchaind genesis add-genesis-account "$ADDR" "$AMOUNT" --home "$HOME_DIR"
+    echo "💰 Funding address $ADDR with $GENESIS_AMOUNT"
+    bin/socialchaind genesis add-genesis-account "$ADDR" "$GENESIS_AMOUNT" --keyring-backend "$KEYRING" --home "$HOME_DIR"
   done
 fi
 
 # === GENTX ===
 echo "🪪 Creating gentx..."
-bin/socialchaind genesis gentx "$KEY_NAME" "$AMOUNT" \
+bin/socialchaind genesis gentx "$KEY_NAME" "$GENTX_AMOUNT" \
   --chain-id "$CHAIN_ID" \
   --keyring-backend "$KEYRING" \
   --home "$HOME_DIR"

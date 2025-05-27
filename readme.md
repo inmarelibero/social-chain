@@ -27,10 +27,11 @@ Be sure to check the [Prerequisites](#Prerequisites) section before continuing.
 
 ### 1) run local blockchain node
 
-There are usefult 3 bash scripts involved when running a local node:
+There are some useful bash scripts involved when running a local node:
     - `bin/build.sh` compiles the source code of the project into a binary and installs the binary into `bin/socialchaind`, necessary to execute once before the other scripts
     - `bin/bootstrap.sh` starts a node from scratch, erasing previous blockchain state and starting from genesis
     - `bin/start.sh` starts a node by resuming the previous blockchain state
+    - `bin/load_fixtures.sh` load fixtures (eg some Posts), to be run only once after `bin/bootstrap.sh`
 
 Note: the folder `[project]/.data` is used as temporary folder to store the blockchain data.
 
@@ -81,7 +82,7 @@ You should see all available accounts ready to be used in development, eg:
 
 Run
 
-    bin/socialchaind tx profiles create-profile "inmarelibero" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes    
+    bin/socialchaind tx profiles create-profile "inmarelibero" --from cosmos1etlhrzcyx3ac5hk2pzmd47l6m42vlm8uxdjxna --yes
 
 to create a Profile, necessary in order to Post
 
