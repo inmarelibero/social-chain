@@ -30,13 +30,19 @@ export interface QueryPostCountResponse {
 
 /** Request for querying latest posts */
 export interface QueryLatestPostsRequest {
-  /** how many latest posts to return */
-  limit: number;
+  /** id from (mandatory) */
+  from: number;
+  /** how many results to return */
+  count: number;
+  /** handle to filter (if populated, selects only the Posts created by a specific user) */
+  handle: number;
 }
 
 /** Response for latest posts */
 export interface QueryLatestPostsResponse {
   posts: PostInQuery[];
+  /** number of total Posts (coincides with the latest id) */
+  count: number;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -244,13 +250,19 @@ export const QueryPostCountResponse: MessageFns<QueryPostCountResponse> = {
 };
 
 function createBaseQueryLatestPostsRequest(): QueryLatestPostsRequest {
-  return { limit: 0 };
+  return { from: 0, count: 0, handle: 0 };
 }
 
 export const QueryLatestPostsRequest: MessageFns<QueryLatestPostsRequest> = {
   encode(message: QueryLatestPostsRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.limit !== 0) {
-      writer.uint32(8).uint64(message.limit);
+    if (message.from !== 0) {
+      writer.uint32(8).uint64(message.from);
+    }
+    if (message.count !== 0) {
+      writer.uint32(16).uint64(message.count);
+    }
+    if (message.handle !== 0) {
+      writer.uint32(24).uint64(message.handle);
     }
     return writer;
   },
@@ -267,7 +279,23 @@ export const QueryLatestPostsRequest: MessageFns<QueryLatestPostsRequest> = {
             break;
           }
 
-          message.limit = longToNumber(reader.uint64());
+          message.from = longToNumber(reader.uint64());
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.count = longToNumber(reader.uint64());
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.handle = longToNumber(reader.uint64());
           continue;
         }
       }
@@ -280,13 +308,23 @@ export const QueryLatestPostsRequest: MessageFns<QueryLatestPostsRequest> = {
   },
 
   fromJSON(object: any): QueryLatestPostsRequest {
-    return { limit: isSet(object.limit) ? globalThis.Number(object.limit) : 0 };
+    return {
+      from: isSet(object.from) ? globalThis.Number(object.from) : 0,
+      count: isSet(object.count) ? globalThis.Number(object.count) : 0,
+      handle: isSet(object.handle) ? globalThis.Number(object.handle) : 0,
+    };
   },
 
   toJSON(message: QueryLatestPostsRequest): unknown {
     const obj: any = {};
-    if (message.limit !== 0) {
-      obj.limit = Math.round(message.limit);
+    if (message.from !== 0) {
+      obj.from = Math.round(message.from);
+    }
+    if (message.count !== 0) {
+      obj.count = Math.round(message.count);
+    }
+    if (message.handle !== 0) {
+      obj.handle = Math.round(message.handle);
     }
     return obj;
   },
@@ -296,19 +334,24 @@ export const QueryLatestPostsRequest: MessageFns<QueryLatestPostsRequest> = {
   },
   fromPartial<I extends Exact<DeepPartial<QueryLatestPostsRequest>, I>>(object: I): QueryLatestPostsRequest {
     const message = createBaseQueryLatestPostsRequest();
-    message.limit = object.limit ?? 0;
+    message.from = object.from ?? 0;
+    message.count = object.count ?? 0;
+    message.handle = object.handle ?? 0;
     return message;
   },
 };
 
 function createBaseQueryLatestPostsResponse(): QueryLatestPostsResponse {
-  return { posts: [] };
+  return { posts: [], count: 0 };
 }
 
 export const QueryLatestPostsResponse: MessageFns<QueryLatestPostsResponse> = {
   encode(message: QueryLatestPostsResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     for (const v of message.posts) {
       PostInQuery.encode(v!, writer.uint32(10).fork()).join();
+    }
+    if (message.count !== 0) {
+      writer.uint32(16).uint64(message.count);
     }
     return writer;
   },
@@ -328,6 +371,14 @@ export const QueryLatestPostsResponse: MessageFns<QueryLatestPostsResponse> = {
           message.posts.push(PostInQuery.decode(reader, reader.uint32()));
           continue;
         }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.count = longToNumber(reader.uint64());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -340,6 +391,7 @@ export const QueryLatestPostsResponse: MessageFns<QueryLatestPostsResponse> = {
   fromJSON(object: any): QueryLatestPostsResponse {
     return {
       posts: globalThis.Array.isArray(object?.posts) ? object.posts.map((e: any) => PostInQuery.fromJSON(e)) : [],
+      count: isSet(object.count) ? globalThis.Number(object.count) : 0,
     };
   },
 
@@ -347,6 +399,9 @@ export const QueryLatestPostsResponse: MessageFns<QueryLatestPostsResponse> = {
     const obj: any = {};
     if (message.posts?.length) {
       obj.posts = message.posts.map((e) => PostInQuery.toJSON(e));
+    }
+    if (message.count !== 0) {
+      obj.count = Math.round(message.count);
     }
     return obj;
   },
@@ -357,6 +412,7 @@ export const QueryLatestPostsResponse: MessageFns<QueryLatestPostsResponse> = {
   fromPartial<I extends Exact<DeepPartial<QueryLatestPostsResponse>, I>>(object: I): QueryLatestPostsResponse {
     const message = createBaseQueryLatestPostsResponse();
     message.posts = object.posts?.map((e) => PostInQuery.fromPartial(e)) || [];
+    message.count = object.count ?? 0;
     return message;
   },
 };

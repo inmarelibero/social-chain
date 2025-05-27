@@ -28,13 +28,28 @@ func (k Keeper) LatestPosts(goCtx context.Context, req *types.QueryLatestPostsRe
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	count := k.GetPostCount(ctx)
+	// coincides with the latest used id
+	postsCount := k.GetPostCount(ctx)
+	from := req.From
+	count := req.Count
+
 	var posts []*types.PostInQuery
+
+	if count <= 0 {
+		return &types.QueryLatestPostsResponse{Posts: posts}, nil
+	}
+
+	addedPosts := uint64(0)
+	i := from
 
 	/**
 	 * build an array of Posts
 	 */
-	for i := int64(count); i > 0 && uint64(len(posts)) < req.Limit; i-- {
+	for addedPosts <= count {
+		if i > postsCount {
+			break
+		}
+
 		post, found := k.GetPost(ctx, uint64(i))
 
 		if found {
@@ -56,8 +71,14 @@ func (k Keeper) LatestPosts(goCtx context.Context, req *types.QueryLatestPostsRe
 			}
 
 			posts = append(posts, &postInQuery)
+			addedPosts++
 		}
+
+		i++
 	}
 
-	return &types.QueryLatestPostsResponse{Posts: posts}, nil
+	return &types.QueryLatestPostsResponse{
+		Posts: posts,
+		Count: postsCount,
+	}, nil
 }

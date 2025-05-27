@@ -17,7 +17,9 @@ service Query {
     option (google.api.http).get = "/socialchain/posts/params";
   }
 
-  rpc PostCount(QueryPostCountRequest) returns (QueryPostCountResponse);
+  rpc PostCount(QueryPostCountRequest) returns (QueryPostCountResponse) {
+    option (google.api.http).get = "/socialchain/posts/count";
+  }
 
   rpc LatestPosts(QueryLatestPostsRequest) returns (QueryLatestPostsResponse) {
     option (google.api.http).get = "/socialchain/posts/latests";
@@ -45,10 +47,13 @@ message QueryPostCountResponse {
 
 // Request for querying latest posts
 message QueryLatestPostsRequest {
-  uint64 limit = 1; // how many latest posts to return
+  uint64 from = 1; // id from (mandatory, included)
+  uint64 count = 2; // how many results to return
+  uint64 handle = 3; // handle to filter (if populated, selects only the Posts created by a specific user)
 }
 
 // Response for latest posts
 message QueryLatestPostsResponse {
   repeated PostInQuery posts = 1;
+  uint64 count = 2; // number of total Posts (coincides with the latest id)
 }
