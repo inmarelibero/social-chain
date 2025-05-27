@@ -1,3 +1,9 @@
+@use '@/styles/variables' as *;
+
+body {
+    background-color: $color_sand;
+}
+
 .link {
     color: rgba(54, 54, 247, 0.695);
     cursor: pointer;

@@ -4,7 +4,7 @@ import { useUserStore } from '@/stores/userStore'
 import { useRouter } from 'vue-router'
 import { UserApiManager } from "@/services/UserApiManager";
 import Overlay from "@/components/Overlay.vue";
-import { KeplrManager } from '../../services/KeplrManager';
+import { KeplrManager } from '@/services/KeplrManager';
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -35,7 +35,7 @@ function createProfile() {
 
     UserApiManager.createProfile(address.value, handle.value)
       .then(() => {
-        // ugly way to
+        // ugly way to reload data
         KeplrManager.login()
           .then(() => {
             router.push({ name: 'profile' })
