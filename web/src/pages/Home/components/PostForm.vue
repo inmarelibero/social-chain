@@ -3,9 +3,9 @@ import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { PostAPIManager } from "@/services/PostAPIManager";
 import Overlay from "@/components/Overlay.vue";
+import EventBus from "type-safe-event-bus";
 
 const userStore = useUserStore()
-const emit = defineEmits(['created'])
 
 const isLoggedWithProfile = computed(() => userStore.isLoggedWithProfile)
 const isLoading = ref<boolean>(false)
@@ -25,7 +25,7 @@ function createPost(input: string | null) {
     .then(() => {
       body.value = null; // Clear the input after posting
 
-      emit('created')
+      EventBus.$emit("post_created");
     })
     .catch((error) => {
       console.error('Error creating post:', error);

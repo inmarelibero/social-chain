@@ -39,11 +39,24 @@ while true; do
 done
 
 # === POST MESSAGE ===
-echo "📝 Creating post from validator..."
-bin/socialchaind tx posts create-post "Hello, world!" \
-  --from "$ADDRESS" \
-  --chain-id "$CHAIN_ID" \
-  --keyring-backend "$KEYRING" \
-  --home "$HOME_DIR" \
-  --fees 5000usoc \
-  --yes
+echo "📝 Creating posts from validator..."
+for i in {0..9}; do
+  TX_HASH=$(bin/socialchaind tx posts create-post "Hello, world! #$i" \
+    --from "$ADDRESS" \
+    --chain-id "$CHAIN_ID" \
+    --keyring-backend "$KEYRING" \
+    --home "$HOME_DIR" \
+    --fees 5000usoc \
+    --yes \
+    --output json | jq -r '.txhash')
+
+  echo "⏳ Waiting for create-post TX ($TX_HASH) to be included..."
+  while true; do
+    TX_STATUS=$(bin/socialchaind query tx "$TX_HASH" --home "$HOME_DIR" --output json 2>/dev/null || true)
+    CODE=$(echo "$TX_STATUS" | jq -r '.code // 0')
+    if [ "$CODE" == "0" ]; then
+      break
+    fi
+    sleep 1
+  done
+done

@@ -5,22 +5,41 @@ import { useUserStore } from '@/stores/userStore'
 import { MsgCreatePost } from "@/generated-proto/socialchain/posts/tx.ts";
 
 export class PostAPIManager {
+    static ITEMS_PER_PAGE_POST: number = 10;
+
     /**
      * 
      * @param limit 
      * @returns 
      */
-    static async fetchLatestPosts(limit: number = 10): Promise<Post[]> {
+    static async fetchLatestPosts(from: number): Promise<Post[]> {
+        console.log("PostAPIManager.fetchLatestPosts() called with from:", from)
         return new Promise(async (resolve, reject) => {         
             // Call the LatestPosts query
             CosmosApiManager.callAPI('/socialchain/posts/latests', {
-                limit
+                count: PostAPIManager.ITEMS_PER_PAGE_POST,
+                from: from,
             }).then((response) => {
                 const posts = response.data.posts.map((result: any) => {
-                    return new Post(result.id, result.body, result.profile, result.timestamp);
+                    return new Post(result.id, result.body, result.profile, result.timestamp);  
                 })
 
                 resolve(posts)
+            })
+
+        })
+    }
+
+    /**
+     * 
+     * @param limit 
+     * @returns 
+     */
+    static async fetchPostsCount(): Promise<number> {
+        return new Promise(async (resolve, reject) => {         
+            // Call the LatestPosts query
+            CosmosApiManager.callAPI('/socialchain/posts/count').then((response) => {
+                resolve(response.data.count)
             })
 
         })

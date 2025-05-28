@@ -14,28 +14,34 @@ const props = defineProps<{
 @use '@/styles/variables' as *;
 
 .post {
-  margin-bottom: 20px;
+  margin-top: 20px;
   background-color: #fff;
   padding: $defaultPadding;
   border-radius: $defaultBorderRadius;
   border: $defaultBorder;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 </style>
 
 <template>
-  <div v-for="post in props.posts" :key="post.id" class="post">
-    <p>
-      <b>
-        @{{ post.profile.handle }}
-      </b>
-      -
-      <span>
-        {{ post.timestamp }}
-      </span>
-    </p>
-    
-    <p>
-      {{ post.body }}
-    </p>
+  <div>
+    <div v-for="post in props.posts" :key="post.id" class="post">
+      <p>
+        <b>
+          @{{ post.profile.handle }}
+        </b>
+        -
+        <span>
+          {{ post.timestamp }}
+        </span>
+      </p>
+      
+      <p>
+        {{ post.body }}
+      </p>
+    </div>
   </div>
 </template>

@@ -56,7 +56,7 @@ func (k Keeper) Logger() log.Logger {
 	return k.logger.With("module", fmt.Sprintf("x/%s", types.ModuleName))
 }
 
-// GetPostCount retrieves the current post count
+// GetPostCount retrieves the current post count, coincides with the latest used id
 func (k Keeper) GetPostCount(ctx sdk.Context) uint64 {
 	store := k.storeService.OpenKVStore(ctx)
 	bz, err := store.Get(types.KeyPrefix(types.PostsCountKey))
