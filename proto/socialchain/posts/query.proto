@@ -24,6 +24,10 @@ service Query {
   rpc LatestPosts(QueryLatestPostsRequest) returns (QueryLatestPostsResponse) {
     option (google.api.http).get = "/socialchain/posts/latests";
   }
+
+  rpc Post(QueryPostRequest) returns (QueryPostResponse) {
+    option (google.api.http).get = "/socialchain/posts/{id}";
+  }
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -56,4 +60,12 @@ message QueryLatestPostsRequest {
 message QueryLatestPostsResponse {
   repeated PostInQuery posts = 1;
   uint64 count = 2; // number of total Posts (coincides with the latest id)
+}
+
+message QueryPostRequest {
+  uint64 id = 1;
+}
+
+message QueryPostResponse {
+  PostWithProfile post = 1;
 }

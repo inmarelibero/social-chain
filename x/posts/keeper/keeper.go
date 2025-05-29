@@ -131,6 +131,7 @@ func (k Keeper) GetPost(ctx sdk.Context, id uint64) (val types.Post, found bool)
 	return val, true
 }
 
+// GetPostIDBytes
 func GetPostIDBytes(id uint64) []byte {
 	return sdk.Uint64ToBigEndian(id)
 }

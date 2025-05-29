@@ -12,7 +12,7 @@ message Post {
   string body = 4;
 }
 
-//
+// @todo deprecated: use PostWithProfile instead
 message PostInQuery {
   uint64 id = 1;
   ProfileForPostInQuery profile = 2;
@@ -20,7 +20,20 @@ message PostInQuery {
   string body = 4;
 }
 
+// @todo deprecated: use PostProfile instead
 message ProfileForPostInQuery {
+  uint64 id = 1;
+  string handle = 2;
+}
+
+message PostWithProfile {
+  uint64 id = 1;
+  PostProfile profile = 2;
+  string timestamp = 3;
+  string body = 4;
+}
+
+message PostProfile {
   uint64 id = 1;
   string handle = 2;
 }
