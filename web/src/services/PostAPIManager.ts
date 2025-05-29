@@ -6,44 +6,6 @@ import { MsgCreatePost } from "@/generated-proto/socialchain/posts/tx.ts";
 
 export class PostAPIManager {
     static ITEMS_PER_PAGE_POST: number = 10;
-
-    /**
-     * 
-     * @param limit 
-     * @returns 
-     */
-    static async fetchLatestPosts(from: number): Promise<Post[]> {
-        console.log("PostAPIManager.fetchLatestPosts() called with from:", from)
-        return new Promise(async (resolve, reject) => {         
-            // Call the LatestPosts query
-            CosmosApiManager.callAPI('/socialchain/posts/latests', {
-                count: PostAPIManager.ITEMS_PER_PAGE_POST,
-                from: from,
-            }).then((response) => {
-                const posts = response.data.posts.map((result: any) => {
-                    return new Post(result.id, result.body, result.profile, result.timestamp);  
-                })
-
-                resolve(posts)
-            })
-
-        })
-    }
-
-    /**
-     * 
-     * @param limit 
-     * @returns 
-     */
-    static async fetchPostsCount(): Promise<number> {
-        return new Promise(async (resolve, reject) => {         
-            // Call the LatestPosts query
-            CosmosApiManager.callAPI('/socialchain/posts/count').then((response) => {
-                resolve(response.data.count)
-            })
-
-        })
-    }
     
     /**
      * 
@@ -90,6 +52,60 @@ export class PostAPIManager {
                     console.log("createPost() error:", error)
                     reject(error)
                 })
+        })
+    }
+
+    /**
+     * 
+     * @param limit 
+     * @returns 
+     */
+    static async fetchLatestPosts(from: number): Promise<Post[]> {
+        return new Promise(async (resolve, reject) => {         
+            // Call the LatestPosts query
+            CosmosApiManager.callAPI('/socialchain/posts/latests', {
+                count: PostAPIManager.ITEMS_PER_PAGE_POST,
+                from: from,
+            }).then((response) => {
+                const posts = response.data.posts.map((result: any) => {
+                    return new Post(result.id, result.body, result.profile, result.timestamp);  
+                })
+
+                resolve(posts)
+            })
+
+        })
+    }
+
+    /**
+     * 
+     * @param limit 
+     * @returns 
+     */
+    static async fetchPostsCount(): Promise<number> {
+        return new Promise(async (resolve, reject) => {         
+            // Call the LatestPosts query
+            CosmosApiManager.callAPI('/socialchain/posts/count').then((response) => {
+                resolve(response.data.count)
+            })
+
+        })
+    }
+
+    /**
+     * 
+     * @param id
+     * @returns 
+     */
+    static async fetchPost(id: number): Promise<Post> {
+        return new Promise(async (resolve, reject) => {         
+            CosmosApiManager.callAPI(`/socialchain/posts/${id}`).then((response) => {
+                const result = response.data.post;
+                const post = new Post(result.id, result.body, result.profile, result.timestamp);  
+
+                resolve(post)
+            })
+
         })
     }
 }

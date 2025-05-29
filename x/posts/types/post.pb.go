@@ -91,6 +91,7 @@ func (m *Post) GetBody() string {
 	return ""
 }
 
+// @todo deprecated: use PostWithProfile instead
 type PostInQuery struct {
 	Id        uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Profile   *ProfileForPostInQuery `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
@@ -159,6 +160,7 @@ func (m *PostInQuery) GetBody() string {
 	return ""
 }
 
+// @todo deprecated: use PostProfile instead
 type ProfileForPostInQuery struct {
 	Id     uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Handle string `protobuf:"bytes,2,opt,name=handle,proto3" json:"handle,omitempty"`
@@ -211,16 +213,138 @@ func (m *ProfileForPostInQuery) GetHandle() string {
 	return ""
 }
 
+type PostWithProfile struct {
+	Id        uint64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Profile   *PostProfile `protobuf:"bytes,2,opt,name=profile,proto3" json:"profile,omitempty"`
+	Timestamp string       `protobuf:"bytes,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Body      string       `protobuf:"bytes,4,opt,name=body,proto3" json:"body,omitempty"`
+}
+
+func (m *PostWithProfile) Reset()         { *m = PostWithProfile{} }
+func (m *PostWithProfile) String() string { return proto.CompactTextString(m) }
+func (*PostWithProfile) ProtoMessage()    {}
+func (*PostWithProfile) Descriptor() ([]byte, []int) {
+	return fileDescriptor_63ee3e038bf1f3b5, []int{3}
+}
+func (m *PostWithProfile) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PostWithProfile) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PostWithProfile.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PostWithProfile) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PostWithProfile.Merge(m, src)
+}
+func (m *PostWithProfile) XXX_Size() int {
+	return m.Size()
+}
+func (m *PostWithProfile) XXX_DiscardUnknown() {
+	xxx_messageInfo_PostWithProfile.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PostWithProfile proto.InternalMessageInfo
+
+func (m *PostWithProfile) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *PostWithProfile) GetProfile() *PostProfile {
+	if m != nil {
+		return m.Profile
+	}
+	return nil
+}
+
+func (m *PostWithProfile) GetTimestamp() string {
+	if m != nil {
+		return m.Timestamp
+	}
+	return ""
+}
+
+func (m *PostWithProfile) GetBody() string {
+	if m != nil {
+		return m.Body
+	}
+	return ""
+}
+
+type PostProfile struct {
+	Id     uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Handle string `protobuf:"bytes,2,opt,name=handle,proto3" json:"handle,omitempty"`
+}
+
+func (m *PostProfile) Reset()         { *m = PostProfile{} }
+func (m *PostProfile) String() string { return proto.CompactTextString(m) }
+func (*PostProfile) ProtoMessage()    {}
+func (*PostProfile) Descriptor() ([]byte, []int) {
+	return fileDescriptor_63ee3e038bf1f3b5, []int{4}
+}
+func (m *PostProfile) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PostProfile) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PostProfile.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PostProfile) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PostProfile.Merge(m, src)
+}
+func (m *PostProfile) XXX_Size() int {
+	return m.Size()
+}
+func (m *PostProfile) XXX_DiscardUnknown() {
+	xxx_messageInfo_PostProfile.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PostProfile proto.InternalMessageInfo
+
+func (m *PostProfile) GetId() uint64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
+
+func (m *PostProfile) GetHandle() string {
+	if m != nil {
+		return m.Handle
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*Post)(nil), "socialchain.posts.Post")
 	proto.RegisterType((*PostInQuery)(nil), "socialchain.posts.PostInQuery")
 	proto.RegisterType((*ProfileForPostInQuery)(nil), "socialchain.posts.ProfileForPostInQuery")
+	proto.RegisterType((*PostWithProfile)(nil), "socialchain.posts.PostWithProfile")
+	proto.RegisterType((*PostProfile)(nil), "socialchain.posts.PostProfile")
 }
 
 func init() { proto.RegisterFile("socialchain/posts/post.proto", fileDescriptor_63ee3e038bf1f3b5) }
 
 var fileDescriptor_63ee3e038bf1f3b5 = []byte{
-	// 255 bytes of a gzipped FileDescriptorProto
+	// 294 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x29, 0xce, 0x4f, 0xce,
 	0x4c, 0xcc, 0x49, 0xce, 0x48, 0xcc, 0xcc, 0xd3, 0x2f, 0xc8, 0x2f, 0x2e, 0x29, 0x06, 0x93, 0x7a,
 	0x05, 0x45, 0xf9, 0x25, 0xf9, 0x42, 0x82, 0x48, 0xb2, 0x7a, 0x60, 0x59, 0x29, 0x25, 0x14, 0x0d,
@@ -233,10 +357,13 @@ var fileDescriptor_63ee3e038bf1f3b5 = []byte{
 	0x31, 0xec, 0x73, 0xe2, 0x62, 0x87, 0x1a, 0x0f, 0xb6, 0x8d, 0xdb, 0x48, 0x43, 0x0f, 0xc3, 0x43,
 	0x7a, 0x01, 0x10, 0x15, 0x6e, 0xf9, 0x45, 0x48, 0x46, 0x05, 0xc1, 0x34, 0x92, 0xe1, 0x2a, 0x7b,
 	0x2e, 0x51, 0xac, 0x66, 0x62, 0x38, 0x4f, 0x8c, 0x8b, 0x2d, 0x23, 0x31, 0x2f, 0x05, 0xea, 0x3a,
-	0xce, 0x20, 0x28, 0xcf, 0xc9, 0xf8, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c,
-	0x92, 0x63, 0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0xa2,
-	0x24, 0x91, 0x03, 0xbf, 0x02, 0x1a, 0x5f, 0x25, 0x95, 0x05, 0xa9, 0xc5, 0x49, 0x6c, 0xe0, 0xa0,
-	0x37, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x27, 0x05, 0x40, 0x27, 0xd1, 0x01, 0x00, 0x00,
+	0xce, 0x20, 0x28, 0x4f, 0xa9, 0x97, 0x91, 0x8b, 0x1f, 0xa4, 0x2f, 0x3c, 0xb3, 0x24, 0x03, 0x6a,
+	0x12, 0x86, 0x5e, 0x0b, 0x74, 0xaf, 0xc9, 0x61, 0xf3, 0x5a, 0x7e, 0x71, 0x09, 0xd4, 0x00, 0x4a,
+	0x3c, 0x64, 0x0a, 0x09, 0x65, 0x5c, 0x4e, 0xc1, 0xe1, 0x0d, 0x27, 0xe3, 0x13, 0x8f, 0xe4, 0x18,
+	0x2f, 0x3c, 0x92, 0x63, 0x7c, 0xf0, 0x48, 0x8e, 0x71, 0xc2, 0x63, 0x39, 0x86, 0x0b, 0x8f, 0xe5,
+	0x18, 0x6e, 0x3c, 0x96, 0x63, 0x88, 0x92, 0x44, 0x4e, 0x43, 0x15, 0xd0, 0x64, 0x57, 0x52, 0x59,
+	0x90, 0x5a, 0x9c, 0xc4, 0x06, 0x4e, 0x41, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x8e, 0x24,
+	0x93, 0x50, 0x98, 0x02, 0x00, 0x00,
 }
 
 func (m *Post) Marshal() (dAtA []byte, err error) {
@@ -375,6 +502,95 @@ func (m *ProfileForPostInQuery) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *PostWithProfile) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PostWithProfile) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PostWithProfile) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Body) > 0 {
+		i -= len(m.Body)
+		copy(dAtA[i:], m.Body)
+		i = encodeVarintPost(dAtA, i, uint64(len(m.Body)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Timestamp) > 0 {
+		i -= len(m.Timestamp)
+		copy(dAtA[i:], m.Timestamp)
+		i = encodeVarintPost(dAtA, i, uint64(len(m.Timestamp)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Profile != nil {
+		{
+			size, err := m.Profile.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPost(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Id != 0 {
+		i = encodeVarintPost(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *PostProfile) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PostProfile) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PostProfile) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Handle) > 0 {
+		i -= len(m.Handle)
+		copy(dAtA[i:], m.Handle)
+		i = encodeVarintPost(dAtA, i, uint64(len(m.Handle)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Id != 0 {
+		i = encodeVarintPost(dAtA, i, uint64(m.Id))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintPost(dAtA []byte, offset int, v uint64) int {
 	offset -= sovPost(v)
 	base := offset
@@ -434,6 +650,46 @@ func (m *PostInQuery) Size() (n int) {
 }
 
 func (m *ProfileForPostInQuery) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovPost(uint64(m.Id))
+	}
+	l = len(m.Handle)
+	if l > 0 {
+		n += 1 + l + sovPost(uint64(l))
+	}
+	return n
+}
+
+func (m *PostWithProfile) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.Id != 0 {
+		n += 1 + sovPost(uint64(m.Id))
+	}
+	if m.Profile != nil {
+		l = m.Profile.Size()
+		n += 1 + l + sovPost(uint64(l))
+	}
+	l = len(m.Timestamp)
+	if l > 0 {
+		n += 1 + l + sovPost(uint64(l))
+	}
+	l = len(m.Body)
+	if l > 0 {
+		n += 1 + l + sovPost(uint64(l))
+	}
+	return n
+}
+
+func (m *PostProfile) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -803,6 +1059,276 @@ func (m *ProfileForPostInQuery) Unmarshal(dAtA []byte) error {
 		}
 		if fieldNum <= 0 {
 			return fmt.Errorf("proto: ProfileForPostInQuery: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Handle", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPost
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPost
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Handle = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPost(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPost
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PostWithProfile) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPost
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PostWithProfile: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PostWithProfile: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			m.Id = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Id |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Profile", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPost
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPost
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.Profile == nil {
+				m.Profile = &PostProfile{}
+			}
+			if err := m.Profile.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPost
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPost
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Timestamp = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Body", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPost
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPost
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPost
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Body = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPost(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthPost
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PostProfile) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPost
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PostProfile: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PostProfile: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

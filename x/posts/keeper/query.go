@@ -55,19 +55,16 @@ func (k Keeper) LatestPosts(goCtx context.Context, req *types.QueryLatestPostsRe
 		if found {
 			profile, _ := k.profilesKeeper.GetProfileById(ctx, post.ProfileId)
 
-			ctx.Logger().Info("Profile", "Profile", profile)
-
-			ProfileForPostInQuery := types.ProfileForPostInQuery{
+			profileForPostInQuery := types.ProfileForPostInQuery{
 				Id:     profile.Id,
 				Handle: profile.Handle,
 			}
-			ctx.Logger().Info("", "ProfileForPostInQuery", ProfileForPostInQuery)
 
 			postInQuery := types.PostInQuery{
 				Id:        post.Id,
 				Body:      post.Body,
 				Timestamp: post.Timestamp,
-				Profile:   &ProfileForPostInQuery,
+				Profile:   &profileForPostInQuery,
 			}
 
 			posts = append(posts, &postInQuery)
@@ -80,5 +77,33 @@ func (k Keeper) LatestPosts(goCtx context.Context, req *types.QueryLatestPostsRe
 	return &types.QueryLatestPostsResponse{
 		Posts: posts,
 		Count: postsCount,
+	}, nil
+}
+
+// GetPost returns a single Post
+func (k Keeper) Post(goCtx context.Context, req *types.QueryPostRequest) (*types.QueryPostResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	post, found := k.GetPost(ctx, req.Id)
+
+	if !found {
+		return nil, errors.New("Post not found")
+	}
+
+	profile, _ := k.profilesKeeper.GetProfileById(ctx, post.ProfileId)
+
+	postProfile := types.PostProfile{
+		Id:     profile.Id,
+		Handle: profile.Handle,
+	}
+
+	postWithProfile := types.PostWithProfile{
+		Id:        post.Id,
+		Body:      post.Body,
+		Timestamp: post.Timestamp,
+		Profile:   &postProfile,
+	}
+
+	return &types.QueryPostResponse{
+		Post: &postWithProfile,
 	}, nil
 }

@@ -19,6 +19,7 @@ const props = defineProps<{
   padding: $defaultPadding;
   border-radius: $defaultBorderRadius;
   border: $defaultBorder;
+  cursor: pointer;
 
   &:first-child {
     margin-top: 0;
@@ -28,7 +29,12 @@ const props = defineProps<{
 
 <template>
   <div>
-    <div v-for="post in props.posts" :key="post.id" class="post">
+    <div
+      v-for="post in props.posts"
+      :key="post.id"
+      class="post"
+      @click="$router.push({ name: 'post_show', params: { id: post.id } });"
+    >
       <p>
         <b>
           @{{ post.profile.handle }}
