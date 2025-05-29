@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 import Login from '@/components/Login.vue'
 
 const drawer = ref(false);
 
 </script>
+
+<style scoped lang="scss">
+
+.v-toolbar {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1) !important;
+}
+</style>
 
 <template>
     <v-app-bar
@@ -18,9 +25,10 @@ const drawer = ref(false);
         />
 
         <v-container class="d-flex">
-            
             <div class="d-none d-sm-inline-block">
                 <v-btn
+                    color="primary"
+                    variant="flat"
                     v-bind:class="{ 'active': $route.name === 'home' }"
                     :to="{ name: 'home'}"
                 >

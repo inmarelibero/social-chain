@@ -79,8 +79,8 @@ function createProfile() {
             v-model="handle"
           ></v-text-field>
           <br>
-          <v-btn @click="createProfile()" color="primary">
-            CREATE A PROFILE NOW
+          <v-btn @click="createProfile()" color="primary" variant="flat">
+            SAVE
           </v-btn>
         </div>
       </v-col>

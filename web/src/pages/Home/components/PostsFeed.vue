@@ -138,8 +138,9 @@ function loadLaterPosts() {
 
           <div class="mb-4" v-if="posts.length > 0">
             <v-btn
-              color="secondary"
+              color="primary"
               size="small"
+              variant="flat"
               @click="loadLaterPosts()"
             >
               Load more...
@@ -150,8 +151,9 @@ function loadLaterPosts() {
 
           <div class="mt-4" v-if="posts.length > 0">
             <v-btn
-              color="secondary"
+              color="primary"
               size="small"
+              variant="flat"
               @click="loadPreviousPosts()"
             >
               Load more...

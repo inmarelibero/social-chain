@@ -21,6 +21,8 @@ const props = defineProps<{
   border: $defaultBorder;
   cursor: pointer;
 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
   &:first-child {
     margin-top: 0;
   }

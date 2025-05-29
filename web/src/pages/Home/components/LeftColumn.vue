@@ -15,6 +15,7 @@ const profile = computed(() => userStore.profile)
   padding: $defaultPadding;
   border-radius: $defaultBorderRadius;
   border: $defaultBorder;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
 

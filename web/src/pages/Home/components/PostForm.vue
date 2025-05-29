@@ -65,6 +65,7 @@ function createPost(input: string | null) {
             <div class="text-right mt-1">
               <v-btn
                 color="primary"
+                variant="flat"
                 :disabled="!body || body.length === 0 || isLoading"
                 @click="createPost(body)"
               >

@@ -47,8 +47,8 @@ const balance = ref<{denom: string, amount: string} | null>(null)
         <template v-if="!profile">
           A profile is necessay to be able to post. You don't have a profile yet.
           <br>
-          <v-btn :to="{ name: 'profile_create' }" plain>
-            CREATE A PROFILE NOW
+          <v-btn :to="{ name: 'profile_create' }" color="primary" variant="flat" class="mt-3">
+            CREATE A PROFILE NOW <v-icon icon="mdi-chevron-right" />
           </v-btn>
         </template>
       </v-col>

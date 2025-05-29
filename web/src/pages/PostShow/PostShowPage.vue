@@ -44,6 +44,7 @@ const loadPost = async (id: number) => {
   padding: $defaultPadding;
   border-radius: $defaultBorderRadius;
   border: $defaultBorder;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>
 
@@ -52,8 +53,9 @@ const loadPost = async (id: number) => {
       <v-col>
         <v-btn
           :to="{ name: 'home'}"
-          color="secondary"
+          color="primary"
           size="small"
+          variant="flat"
         >
           <v-icon icon="mdi-chevron-left" />
           BACK
