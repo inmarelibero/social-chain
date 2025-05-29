@@ -1,6 +1,7 @@
-# socialchain
+SocialChain
+===========
 
-**socialchain** is an open source project I'm using to learn Cosmos SDk and Go.
+**socialchain** is an open source project I'm using to learn Cosmos SDK and Go.
 
 The purpose is to build an L1 blockchain with the features of a social network:
 - profiles
