@@ -24,6 +24,12 @@ const profile = computed(() => userStore.profile)
       Social Chain
     </p>
 
+    <p>
+      <v-btn :to="{ name: 'home' }" variant="plain" class="px-0">
+        <v-icon icon="mdi-home" /> HOME
+      </v-btn>
+    </p>
+
     <template v-if="profile">
       <p>
         <b>
