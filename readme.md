@@ -10,11 +10,11 @@ The purpose is to build an L1 blockchain with the features of a social network:
 
 Tech stack: Cosmos SDK Tendermint, Ignite, Vue3, Vite, Vuetify.
 
-## Prerequisites
+# Prerequisites
 
 - `go: 1.24.3`
 
-## Development roadmap
+# Development roadmap
 
 1) Project scaffolded (with `ignite scaffold chain socialchain`)
 2) Added ability to Post contents and retrieve the number of Posts
@@ -22,11 +22,11 @@ Tech stack: Cosmos SDK Tendermint, Ignite, Vue3, Vite, Vuetify.
 4) Implemented a simple frontend to show latest Posts
 5) Added the possibility to create a Profile from frontend
 
-## Get started
+# Get started
 
 Be sure to check the [Prerequisites](#Prerequisites) section before continuing.
 
-### 1) run local blockchain node
+## 1) run local blockchain node
 
 There are some useful bash scripts involved when running a local node:
     - `bin/build.sh` compiles the source code of the project into a binary and installs the binary into `bin/socialchaind`, necessary to execute once before the other scripts
@@ -36,34 +36,41 @@ There are some useful bash scripts involved when running a local node:
 
 Note: the folder `[project]/.data` is used as temporary folder to store the blockchain data.
 
-### 2) run local frontend
+If it's the first time that you bootstrap the blockchain, run:
+    - `bin/build.sh && bin/bootstrap.sh`
+    - `bin/load_fixtures.sh` (in a separate terminal and wait some seconds after bootstrapping)
+
+While if you want to resume the blockchain from the previous state, just run `bin/start.sh`
+
+
+## 2) run local frontend
 
 Start the local webserver serving the frontend, by running:
 - `cd web/`
 - `pnpm run dev`
 
-## Prerequisites
+### Prerequisites
 
-### Install frontend dependencies
+#### a) Install frontend dependencies
 
 Install frontend dependencies with:
 - `cd web/`
 - `pnpm i`
 
-### Setup https for local frontend
+#### b) Setup https for local frontend
 
 Connecting with Keplr requires a working https website.
 
 Follow these steps to setup a local https dev server:
 - `mkcert -install` this will install `localhost` certificates
 
+# Utilities
 
-
-### Generate js classes from proto messages
+## How to generate js classes from proto messages
 
 Run `buf generate --template proto/buf.gen.ts.yaml --output web/src/generated-proto` to generate js classes from proto messages.
 
-## Commands
+## Useful commands
 
 **1) List all public keys stored locally**
 
