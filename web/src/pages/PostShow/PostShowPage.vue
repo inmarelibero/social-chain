@@ -36,7 +36,6 @@ const loadPost = async (id: number) => {
 </script>
 
 <style scoped lang="scss">
-
 @use '@/styles/variables' as *;
 
 .post {

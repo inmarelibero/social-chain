@@ -8,9 +8,29 @@ const drawer = ref(false);
 </script>
 
 <style scoped lang="scss">
+@use '@/styles/variables' as *;
 
 .v-toolbar {
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1) !important;
+    background-color: $navbar_background;
+
+    .home-button {
+        padding-top: 7px;
+        font-weight: 600;
+        font-size: 1.3rem;
+        color: #FFF;
+        cursor: pointer;
+    
+        .initial {
+            background-color: $color_purple_light;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+    }
+
+    .link {
+        color: #FFF !important;
+    }
 }
 </style>
 
@@ -26,14 +46,9 @@ const drawer = ref(false);
 
         <v-container class="d-flex">
             <div class="d-none d-sm-inline-block">
-                <v-btn
-                    color="primary"
-                    variant="flat"
-                    v-bind:class="{ 'active': $route.name === 'home' }"
-                    :to="{ name: 'home'}"
-                >
-                    HOME
-                </v-btn>
+                <div class="home-button" @click="$router.push({ name: 'home' })">
+                    <span class="initial">S</span> <span>SocialChain</span>
+                </div>
             </div>
 
             <v-spacer class="d-none d-sm-inline-block" />
@@ -57,7 +72,7 @@ const drawer = ref(false);
                 :to="{ name: 'home'}" v-bind:class="{ 'active': $route.name === 'home' }"
             >
                 <v-list-item-title>
-                HOME
+                    HOME
                 </v-list-item-title>
             </v-list-item>
         </v-list-item-group>

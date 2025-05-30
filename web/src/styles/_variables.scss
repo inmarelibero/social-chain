@@ -1,5 +1,10 @@
-$color_background: #fbf6ee;
-$color_orange: #ee8436;
+$color_pink_pale: #fff7ed;
+$color_purple: #473e60;
+$color_purple_light: #a76b80;
+
+// ui
+$color_background: $color_pink_pale;
+$navbar_background: $color_purple;
 
 $defaultBorderRadius: 8px;
 $defaultPadding: 8px;

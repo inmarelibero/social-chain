@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore'
 import { UserApiManager } from "@/services/UserApiManager";
 
@@ -7,13 +7,23 @@ const userStore = useUserStore()
 const address = computed(() => userStore.address)
 const profile = computed(() => userStore.profile)
 
+onMounted(async () => {
+    loadBalance
+});
+
 watch(() => userStore.address, (newValue) => {
   if (newValue) {
-    UserApiManager.getBalance(newValue).then((result) => {
+    loadBalance()
+  }
+})
+
+function loadBalance() {
+  if (userStore.address) {
+    UserApiManager.getBalance(userStore.address).then((result) => {
       balance.value = result
     })
   }
-})
+}
 
 const balance = ref<{denom: string, amount: string} | null>(null)
 
