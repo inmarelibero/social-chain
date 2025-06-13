@@ -10,6 +10,11 @@ The purpose is to build an L1 blockchain with the features of a social network:
 
 Tech stack: Cosmos SDK Tendermint, Ignite, Vue3, Vite, Vuetify.
 
+Awesome resources:
+- [ZetaChain node](https://github.com/zeta-chain/node)
+- [BandChain node](https://github.com/bandprotocol/chain)
+- [ChihuahuaChain node](https://github.com/ChihuahuaChain/chihuahua)
+
 # Prerequisites
 
 - `go: 1.24.3`
